@@ -117,7 +117,7 @@ class PushButton
         send_state();
         return true;
       }
-      // TODO: If set state, consider performig actions like new state?
+      // TODO: If set state, consider performing actions like new state?
       return false;
     }
     

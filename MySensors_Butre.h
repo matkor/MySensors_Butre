@@ -17,13 +17,13 @@
 
 #include "Utils.h"
 #include "Button.h"
+#include "SimpleRelay.h"
+#include "SimpleRelaySet.h"
+#include "InputList.h"
 
 
-const static uint8_t RELAY_PINS[] = {53,51,49,47,};  
-const static uint8_t BUTTON_PINS[] = {A1,A2,A3,A4,};  // 55 56 57 58 
-
-const size_t RELAY_NUM = sizeof(RELAY_PINS) / sizeof( RELAY_PINS[0] );
-const size_t BUTTON_NUM = sizeof(BUTTON_PINS) / sizeof( BUTTON_PINS[0] );
+extern SimpleRelaySet relay_set;
+extern ButtonSet button_set;
 
 
 
