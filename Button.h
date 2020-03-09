@@ -2,10 +2,13 @@
 #define __MYSENSORS_BUTRE_BUTTON_H_INCLUDED__   
 
 // https://forum.mysensors.org/topic/11005/how-can-one-use-mymessage-class-in-library/2
-#define MY_CORE_ONLY
+// #define MY_CORE_ONLY
 //#include <MySensors.h>
 #include <core/MySensorsCore.h>
+
+// #include "MySensors_Butre.h"
 #include "Utils.h"
+#include "ActionConfig.h"
 
 class PushButton
 {
