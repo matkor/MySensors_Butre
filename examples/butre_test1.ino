@@ -38,21 +38,17 @@ void presentation()
   // Send the sketch version information to the gateway and Controller
   
   // NOTE: Home Assistant used name of sketch as part of entity name
-  sendSketchInfo("Butre Test", "0.1");
-  button_set.present();
-  relay_set.present();
+  // sendSketchInfo("Butre Test", "0.1");
+  // button_set.present();
+  // relay_set.present();
+  butre.present("Butre Test", "0.1");
   // Serial_mysensors_logln("DONE: presentation()");
 }
 
-bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
 
 void loop() {
-    if ( ! inital_msgs_sent ) {
-      button_set.send_states(); 
-      relay_set.update();
-      inital_msgs_sent = true;
-    }
-    button_set.update();
+  butre.loop();
+  
 }
 
 

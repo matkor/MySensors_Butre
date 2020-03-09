@@ -46,4 +46,6 @@ inline bool valid_relay_idx(uint8_t relay_idx) {
 }
 
 
+
+
 #endif // __MYSENSORS_BUTRE_CONFIG_DEFAULTS_H_INCLUDED__
