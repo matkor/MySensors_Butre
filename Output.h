@@ -1,5 +1,5 @@
-#ifndef __MYSENSORS_BUTRE_SIMPLE_RELAY_H_INCLUDED__ 
-#define __MYSENSORS_BUTRE_SIMPLE_RELAY_H_INCLUDED__   
+#ifndef __MYSENSORS_BUTRE_OUTPUT_H_INCLUDED__ 
+#define __MYSENSORS_BUTRE_OUTPUT_H_INCLUDED__   
 
 #include <core/MySensorsCore.h>
 #include "Utils.h"
@@ -80,4 +80,4 @@ class Output
 
 
 
-#endif // __MYSENSORS_BUTRE_SIMPLE_RELAY_H_INCLUDED__   
+#endif // __MYSENSORS_BUTRE_OUTPUT_H_INCLUDED__   

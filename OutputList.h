@@ -1,5 +1,5 @@
-#ifndef __MYSENSORS_BUTRE_SIMPLE_RELAY_SET_H_INCLUDED__ 
-#define __MYSENSORS_BUTRE_SIMPLE_RELAY_SET_H_INCLUDED__   
+#ifndef __MYSENSORS_BUTRE_OUTPUT_LIST_H_INCLUDED__ 
+#define __MYSENSORS_BUTRE_OUTPUT_LIST_H_INCLUDED__   
 
 
 #include "ConfigDefaults.h"
@@ -10,12 +10,12 @@ class OutputList
 //
 {
   public:
-    Output outputs[RELAY_NUM];
+    Output outputs[BUTRE_OUTPUTS_NUM];
   
   public:
     OutputList() {
-      for (int output_idx = 0 ; output_idx < RELAY_NUM; output_idx ++ ) {
-        uint8_t pin = RELAY_PINS[output_idx];
+      for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
+        uint8_t pin = BUTRE_OUTPUT_PINS_LIST[output_idx];
         outputs[output_idx].configure(pin, pin);  // Sensor id is pin number
       }
     }
@@ -24,25 +24,25 @@ class OutputList
     // MySensors operations
     
     void before() {
-      for (int output_idx = 0 ; output_idx < RELAY_NUM; output_idx ++ ) {
+      for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
         outputs[output_idx].before();
       }
       
     }
     void present() {
-      for (int output_idx = 0 ; output_idx < RELAY_NUM; output_idx ++ ) {
+      for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
         outputs[output_idx].present();
       }
       
     }
     void update() {
-      for (int output_idx = 0 ; output_idx < RELAY_NUM; output_idx ++ ) {
+      for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
         outputs[output_idx].update();
       }
     }    
     
     bool processMessage(const MyMessage & recv_msg) {
-      for (int output_idx = 0 ; output_idx < RELAY_NUM; output_idx ++ ) {
+      for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
         if ( outputs[output_idx].processMessage(recv_msg) ) {
           return true;
         }
@@ -53,4 +53,4 @@ class OutputList
 };
 
 
-#endif // __MYSENSORS_BUTRE_SIMPLE_RELAY_SET_H_INCLUDED__
+#endif // __MYSENSORS_BUTRE_OUTPUT_LIST_H_INCLUDED__
