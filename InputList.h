@@ -13,38 +13,38 @@ class InputList
   
   public:
     InputList() {
-      for (int input_idx = 0 ; input_idx < BUTRE_INPUTS_NUM; input_idx ++ ) {
-        uint8_t pin = BUTRE_INPUT_PINS_LIST[input_idx];
-        inputs[input_idx].configure(pin, pin);  // Sensor id is pin number
+      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+        uint8_t pin = BUTRE_INPUT_PINS_LIST[inputIdx];
+        inputs[inputIdx].configure(pin, pin);  // Sensor id is pin number
       }
     }
     
 //    void before() {
-//      for (int input_idx = 0 ; input_idx < BUTRE_INPUTS_NUM; input_idx ++ ) {
-//        inputs[input_idx].before();
+//      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+//        inputs[inputIdx].before();
 //      }      
 //    }
     
     void present() {
-      for (int input_idx = 0 ; input_idx < BUTRE_INPUTS_NUM; input_idx ++ ) {
-        inputs[input_idx].present();
+      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+        inputs[inputIdx].present();
       }
     }
       
     void send_states() {
-      for (int input_idx = 0 ; input_idx < BUTRE_INPUTS_NUM; input_idx ++ ) {
-        inputs[input_idx].send_state();
+      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+        inputs[inputIdx].send_state();
       }
     }    
     void update() {
-      for (int input_idx = 0 ; input_idx < BUTRE_INPUTS_NUM; input_idx ++ ) {
-        inputs[input_idx].update();
+      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+        inputs[inputIdx].update();
       }
     }    
     
     bool processMessage(const MyMessage & recv_msg) {
-      for (int input_idx = 0 ; input_idx < BUTRE_INPUTS_NUM; input_idx ++ ) {
-        if ( inputs[input_idx].processMessage(recv_msg) ) {
+      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+        if ( inputs[inputIdx].processMessage(recv_msg) ) {
           return true;
         }
       }
@@ -56,10 +56,10 @@ class InputList
       return 0 <= inputIdx < BUTRE_INPUTS_NUM;
     }
     
-    void configure_action_pushed(uint8_t input_idx, action_t action, uint8_t output_idx) {
-      if ( validIdx(input_idx)  ) { // and outputs.validIdx(output_idx)
-        inputs[input_idx].pushed_config.set_relay_action(action,output_idx);
-      }
+    void configureOnAction(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
+	if ( validIdx(inputIdx)  ) { // and outputs.validIdx(outputIdx)
+		inputs[inputIdx].onConfig.setAction(action,outputIdx);
+	}
     }
     
 };

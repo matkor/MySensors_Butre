@@ -20,8 +20,8 @@ class Input
 
 
   public:
-    ActionConfig pushed_config;
-    ActionConfig released_config;
+    ActionConfig onConfig;
+    ActionConfig offConfig;
   
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
     Input(uint8_t sensorId = INVALID, uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
@@ -43,10 +43,10 @@ class Input
     void configure_action_pushed(action_t action, uint8_t relay_idx)
     {
       if ( valid_relay_idx(relay_idx) ) {
-        this->pushed_config.action = action;
-        this->pushed_config.relay_idx = relay_idx;
+        this->onConfig.action = action;
+        this->onConfig.relay_idx = relay_idx;
       } else {
-          this->pushed_config.disable();
+          this->onConfig.disable();
       }
     }
     */
@@ -90,30 +90,26 @@ class Input
         if (pin_state == HIGH) {
           // Serial_mysensors_logln("Button released");
           //action_released();
-          released_config.perform_action();
+          offConfig.performAction();
           return RELEASED;
         } else {
           // Serial_mysensors_logln("Button pushed");
           //action_pushed();
-          pushed_config.perform_action();
+          onConfig.performAction();
           return PUSHED;
         }
       }
       return NO_CHANGE;
     };
 
-    // void action_pushed();
 
-    // void action_released();
-
-
-    bool processMessage(const MyMessage & recv_msg) {
+    bool processMessage(const MyMessage & recvMsg) {
       // Returns if message was targeted to current sensor.
-      // 
-      if (msg.sensor != recv_msg.sensor) {
+      // 	
+      if (msg.sensor != recvMsg.sensor) {
         return false;
       }
-      if (recv_msg.type == V_STATUS && recv_msg.getCommand() == C_REQ ) {
+      if (recvMsg.type == V_STATUS && recvMsg.getCommand() == C_REQ ) {
         send_state();
         return true;
       }

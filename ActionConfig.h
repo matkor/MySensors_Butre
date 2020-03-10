@@ -15,20 +15,21 @@ class ActionConfig
 {
 	public:
 		uint8_t action = NO_ACTION;
-		uint8_t relay_idx = 0; // Always points to sane value 0..
+		uint8_t outputIdx = 0; // Always points to sane value 0..
 
 		void 
 		disable(){
 			action = NO_ACTION;
-			relay_idx = 0;
-		}
+			outputIdx = 0;
+		};
+		
 		void 
-		set_relay_action(action_t set_action,uint8_t set_relay_idx) {
-			this->action = set_action;
-			this->relay_idx = set_relay_idx;
-		}
+		setAction(action_t actionNew,uint8_t outputIdxNew) {
+			action = actionNew;
+			outputIdx = outputIdxNew;
+		};
 		void 
-		perform_action();
+		performAction();
 
 };
 

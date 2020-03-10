@@ -2,12 +2,12 @@
 #include "MySensors_Butre.h"
 
 void 
-ActionConfig::perform_action()
+ActionConfig::performAction()
 {
   if ( action == NO_ACTION ) {
     return;
   }
-  Output & output = butre.outputs.outputs[relay_idx];
+  Output & output = butre.outputs.outputs[outputIdx];
   if ( action == ACTION_ON ) {
     output.set(true);
   } else if ( action == ACTION_OFF ) {

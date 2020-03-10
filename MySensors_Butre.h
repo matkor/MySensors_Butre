@@ -16,12 +16,10 @@
 
 
 #include "Utils.h"
-#include "Button.h"
+#include "Input.h"
 #include "Output.h"
-#include "OutputList.h"
 #include "InputList.h"
-
-
+#include "OutputList.h"
 
 
 class Butre {
@@ -33,7 +31,7 @@ private:
 	MyMessage msg;
 public: 
 	void before() {
-		// inputs.before(); // No before for Inputs
+		// inputs.before(); // No before() for Inputs
 		outputs.before();
 	}
 		
@@ -70,11 +68,11 @@ public:
 	}
 	
 	
-	void configureInputOn(uint8_t input_idx, action_t action, uint8_t output_idx) {
-      if ( inputs.validIdx(input_idx) and outputs.validIdx(output_idx) ) {
-        inputs.inputs[input_idx].pushed_config.set_relay_action(action,output_idx);
-      }
-    }
+	void configureInputOn(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
+		if ( inputs.validIdx(inputIdx) and outputs.validIdx(outputIdx) ) {
+			inputs.inputs[inputIdx].onConfig.setAction(action,outputIdx);
+		}
+	}
 	
 };
 
