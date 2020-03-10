@@ -43,9 +43,6 @@ const size_t BUTRE_INPUTS_NUM = sizeof(BUTRE_INPUT_PINS_LIST) / sizeof( BUTRE_IN
 
 
 
-inline bool validOutputIdx(uint8_t output_idx) {
-  return 0 <= output_idx < BUTRE_OUTPUTS_NUM;
-}
 
 
 

@@ -19,6 +19,11 @@ class OutputList
         outputs[output_idx].configure(pin, pin);  // Sensor id is pin number
       }
     }
+    
+	bool validIdx(uint8_t outputIdx) {
+		return 0 <= outputIdx < BUTRE_OUTPUTS_NUM;
+	}
+   
     // bool valid_id(uint8_t output_idx) // TODO: Make static
 
     // MySensors operations

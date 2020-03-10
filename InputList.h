@@ -9,7 +9,7 @@ class InputList
 //
 {
   public:
-     Input inputs[BUTRE_INPUTS_NUM];
+     Input inputs[BUTRE_INPUTS_NUM];  // TODO: convert to operator[] to avoid inputs.inputs[X] ?
   
   public:
     InputList() {
@@ -52,12 +52,12 @@ class InputList
     }
 
 
-    bool valid_input_idx(uint8_t input_idx){
-      return 0 <= input_idx < BUTRE_INPUTS_NUM;
+    bool validIdx(uint8_t inputIdx){
+      return 0 <= inputIdx < BUTRE_INPUTS_NUM;
     }
     
     void configure_action_pushed(uint8_t input_idx, action_t action, uint8_t output_idx) {
-      if ( valid_input_idx(input_idx) and validOutputIdx(output_idx) ) {
+      if ( validIdx(input_idx)  ) { // and outputs.validIdx(output_idx)
         inputs[input_idx].pushed_config.set_relay_action(action,output_idx);
       }
     }

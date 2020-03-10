@@ -19,11 +19,12 @@
 void before() {
   // Serial_mysensors_logln("CALLED: before()");
   // button_set.before();
-  relay_set.before();
+  // relay_set.before();
+  butre.before();
   // Serial_mysensors_logln("DONE: before()");
 
-  //button_set.configure_action_pushed(0,ACTION_TOGGLE,3);
-  //button_set.configure_action_pushed(1,ACTION_TOGGLE,0);
+  butre.configureInputOn(0,ACTION_TOGGLE,0);
+  butre.configureInputOn(1,ACTION_TOGGLE,1);
   
 }
 
@@ -54,16 +55,20 @@ void loop() {
 
 void receive(const MyMessage &message) {
   // Serial_mysensors_logln("Message received");
+  if (butre.processMessage(message)) {
+    // message was targeted to Butre
+  }
+  /*
   if (message.type == V_STATUS) {
     //Serial_mysensors_log_intro();
     //Serial.print("message V_STATUS for sensor: ");
     //Serial.print(message.sensor);
     //Serial.print(", requested status: ");
     //Serial.println(message.getBool());
-    if ( relay_set.process_message(message) ) {
+    if ( .process_message(message) ) {
       // Serial_mysensors_logln("Message accepted by relay_set");
     } else if ( button_set.process_message(message) ) {
       
     }
-  }
+  } */
 }

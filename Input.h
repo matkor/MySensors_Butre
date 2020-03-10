@@ -15,7 +15,7 @@ class Input
   private:
     BounceExt debouncer; // https://github.com/thomasfredericks/Bounce2/wiki
     // uint8_t pin;  // Needed as: error: 'uint8_t Bounce::pin' is protected
-    uint8_t sensor_id;
+    uint8_t sensorId;
     MyMessage msg;
 
 
@@ -28,7 +28,7 @@ class Input
       debouncer(pin, debounce_interval_millis)
       , msg(sensorId, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
       // S_BINARY sends V_STATUS
-      // ,sensor_id(sensor_id)
+      // ,sensorId(sensorId)
       // ,pin(pin)
     {}
 
@@ -62,7 +62,7 @@ class Input
       // ::present(msg.getSensor(), S_BINARY);
       ::present(msg.sensor, S_BINARY);
 
-      //Serial_mysensors_logln("Button presented as sensor_id: ",msg.sensor); // Id of sensor that this message concerns. 
+      //Serial_mysensors_logln("Button presented as sensorId: ",msg.sensor); // Id of sensor that this message concerns. 
 
     }
     //    void

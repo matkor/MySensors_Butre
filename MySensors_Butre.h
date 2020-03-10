@@ -68,6 +68,14 @@ public:
 		}
 		return outputs.processMessage(message);
 	}
+	
+	
+	void configureInputOn(uint8_t input_idx, action_t action, uint8_t output_idx) {
+      if ( inputs.validIdx(input_idx) and outputs.validIdx(output_idx) ) {
+        inputs.inputs[input_idx].pushed_config.set_relay_action(action,output_idx);
+      }
+    }
+	
 };
 
 extern Butre butre;
