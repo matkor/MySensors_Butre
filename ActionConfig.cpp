@@ -7,7 +7,7 @@ ActionConfig::perform_action()
   if ( action == NO_ACTION ) {
     return;
   }
-  Output & output = butre.relay_set.relays[relay_idx];
+  Output & output = butre.outputs.outputs[relay_idx];
   if ( action == ACTION_ON ) {
     output.set(true);
   } else if ( action == ACTION_OFF ) {

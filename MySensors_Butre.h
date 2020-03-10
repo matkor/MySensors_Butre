@@ -22,27 +22,27 @@
 #include "InputList.h"
 
 
-extern ButtonSet button_set;
 
 
 class Butre {
 public:
-	OutputList relay_set;
+	InputList inputs;
+	OutputList outputs;
 	
 private:
 	MyMessage msg;
 public: 
 	void before() {
-		// button_set.before(); // No before for Inputs
-		relay_set.before();
+		// inputs.before(); // No before for Inputs
+		outputs.before();
 	}
 		
 	void present(const char * sketchName, const char * version) 
 	{
 		// bool sendSketchInfo(const char *name, const char *version, bool echo);
 		sendSketchInfo(sketchName, version);
-		button_set.present();
-		relay_set.present();
+		inputs.present();
+		outputs.present();
 		
 		// bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
 		::present(250,S_INFO,F("Status/config"));
@@ -51,22 +51,22 @@ public:
 	void loop() {
 		bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
 		if ( ! inital_msgs_sent ) {
-			button_set.send_states(); 
-			relay_set.update();
+			inputs.send_states(); 
+			outputs.update();
 			msg.setType(V_TEXT);
 			msg.setSensor(250);
 			msg.set(F("Presentation done"));
 			send(msg);
 			inital_msgs_sent = true;
 		}
-		button_set.update();
+		inputs.update();
 	}
 	
 	bool processMessage(const MyMessage &message) {
-		if ( button_set.processMessage(message) ) {
+		if ( inputs.processMessage(message) ) {
 			return true; 
 		}
-		return relay_set.processMessage(message);
+		return outputs.processMessage(message);
 	}
 };
 

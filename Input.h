@@ -1,5 +1,5 @@
-#ifndef __MYSENSORS_BUTRE_BUTTON_H_INCLUDED__ 
-#define __MYSENSORS_BUTRE_BUTTON_H_INCLUDED__   
+#ifndef __MYSENSORS_BUTRE_INPUT_H_INCLUDED__ 
+#define __MYSENSORS_BUTRE_INPUT_H_INCLUDED__   
 
 // https://forum.mysensors.org/topic/11005/how-can-one-use-mymessage-class-in-library/2
 // #define MY_CORE_ONLY
@@ -10,7 +10,7 @@
 #include "Utils.h"
 #include "ActionConfig.h"
 
-class PushButton
+class Input
 {
   private:
     BounceExt debouncer; // https://github.com/thomasfredericks/Bounce2/wiki
@@ -24,7 +24,7 @@ class PushButton
     ActionConfig released_config;
   
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
-    PushButton(uint8_t sensorId = INVALID, uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
+    Input(uint8_t sensorId = INVALID, uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
       debouncer(pin, debounce_interval_millis)
       , msg(sensorId, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
       // S_BINARY sends V_STATUS
@@ -125,4 +125,4 @@ class PushButton
 
 
 
-#endif // __MYSENSORS_BUTRE_BUTTON_H_INCLUDED__   
+#endif // __MYSENSORS_BUTRE_INPUT_H_INCLUDED__   
