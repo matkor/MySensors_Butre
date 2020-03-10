@@ -3,17 +3,17 @@
 
 
 #include "ConfigDefaults.h"
-#include "SimpleRelay.h"
+#include "Output.h"
 
-class SimpleRelaySet
+class OutputList
 // Set of Relays working over 
 //
 {
   public:
-    SimpleRelay relays[RELAY_NUM];
+    Output relays[RELAY_NUM];
   
   public:
-    SimpleRelaySet() {
+    OutputList() {
       for (int relay_idx = 0 ; relay_idx < RELAY_NUM; relay_idx ++ ) {
         uint8_t pin = RELAY_PINS[relay_idx];
         relays[relay_idx].configure(pin, pin);  // Sensor id is pin number
@@ -41,9 +41,9 @@ class SimpleRelaySet
       }
     }    
     
-    bool process_message(const MyMessage & recv_msg) {
+    bool processMessage(const MyMessage & recv_msg) {
       for (int relay_idx = 0 ; relay_idx < RELAY_NUM; relay_idx ++ ) {
-        if ( relays[relay_idx].process_message(recv_msg) ) {
+        if ( relays[relay_idx].processMessage(recv_msg) ) {
           return true;
         }
       }

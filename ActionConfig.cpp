@@ -7,13 +7,13 @@ ActionConfig::perform_action()
   if ( action == NO_ACTION ) {
     return;
   }
-  SimpleRelay & relay = relay_set.relays[relay_idx];
+  Output & output = butre.relay_set.relays[relay_idx];
   if ( action == ACTION_ON ) {
-    relay.set(true);
+    output.set(true);
   } else if ( action == ACTION_OFF ) {
-    relay.set(false);
+    output.set(false);
   } else if ( action == ACTION_TOGGLE ) {
-    relay.toggle();
+    output.toggle();
   }
 
 }

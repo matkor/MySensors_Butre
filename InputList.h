@@ -42,9 +42,9 @@ class ButtonSet
       }
     }    
     
-    bool process_message(const MyMessage & recv_msg) {
+    bool processMessage(const MyMessage & recv_msg) {
       for (int button_idx = 0 ; button_idx < BUTTON_NUM; button_idx ++ ) {
-        if ( buttons[button_idx].process_message(recv_msg) ) {
+        if ( buttons[button_idx].processMessage(recv_msg) ) {
           return true;
         }
       }

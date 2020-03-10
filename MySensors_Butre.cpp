@@ -4,7 +4,7 @@
 //#include "SimpleRelaySet.h"
 //#include "InputList.h"
 
-SimpleRelaySet relay_set;
+// SimpleRelaySet relay_set;
 ButtonSet button_set;
 
 

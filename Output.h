@@ -6,7 +6,7 @@
 
 //#include "MySensors_Butre.h"
 
-class SimpleRelay
+class Output
 {
   
   private:
@@ -17,7 +17,7 @@ class SimpleRelay
   public:
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
     
-    SimpleRelay(uint8_t sensorId=INVALID, uint8_t pin=INVALID):
+    Output(uint8_t sensorId=INVALID, uint8_t pin=INVALID):
       msg(sensorId, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
       , pin(pin)
     {}
@@ -44,7 +44,7 @@ class SimpleRelay
         // void saveState(uint8_t pos, uint8_t value);   // https://www.mysensors.org/download/sensor_api_20
         // pos = sensorId ?
         
-        // Serial_mysensors_logln("SimpleRelay.set(): pin: ",pin);
+        // Serial_mysensors_logln("Output.set(): pin: ",pin);
         // Serial_mysensors_logln("                 state: ",!new_state);
         
         update();
@@ -60,7 +60,7 @@ class SimpleRelay
       send(msg);
     }
 
-    bool process_message(const MyMessage & recv_msg) {
+    bool processMessage(const MyMessage & recv_msg) {
       if (msg.sensor != recv_msg.sensor) {
         return false;
       }

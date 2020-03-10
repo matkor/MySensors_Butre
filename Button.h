@@ -107,7 +107,7 @@ class PushButton
     // void action_released();
 
 
-    bool process_message(const MyMessage & recv_msg) {
+    bool processMessage(const MyMessage & recv_msg) {
       // Returns if message was targeted to current sensor.
       // 
       if (msg.sensor != recv_msg.sensor) {

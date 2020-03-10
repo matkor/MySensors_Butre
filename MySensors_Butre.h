@@ -17,19 +17,26 @@
 
 #include "Utils.h"
 #include "Button.h"
-#include "SimpleRelay.h"
-#include "SimpleRelaySet.h"
+#include "Output.h"
+#include "OutputList.h"
 #include "InputList.h"
 
 
-extern SimpleRelaySet relay_set;
 extern ButtonSet button_set;
 
 
 class Butre {
+public:
+	OutputList relay_set;
+	
 private:
 	MyMessage msg;
 public: 
+	void before() {
+		// button_set.before(); // No before for Inputs
+		relay_set.before();
+	}
+		
 	void present(const char * sketchName, const char * version) 
 	{
 		// bool sendSketchInfo(const char *name, const char *version, bool echo);
@@ -55,6 +62,12 @@ public:
 		button_set.update();
 	}
 	
+	bool processMessage(const MyMessage &message) {
+		if ( button_set.processMessage(message) ) {
+			return true; 
+		}
+		return relay_set.processMessage(message);
+	}
 };
 
 extern Butre butre;
