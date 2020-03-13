@@ -6,13 +6,43 @@
 
 //#include "MySensors_Butre.h"
 
+
 class Output
+/*
+ * We mean on/off as logical states
+ * We mean high/low as phisical pin state
+ * If inverte  on = low, off=high
+ * if not inverted (normal)   on = high,  off=low
+ */
 {
-  
-  private:
-    // uint8_t sensorId;
-    uint8_t pin;
-    MyMessage msg;
+public:
+	class Config 
+	{
+	public:
+		//const uint16_t SWITCHBACK_DEFAULT_TIME_NEVER = 0;
+		uint16_t switchBackTime = 0; // SWITCHBACK_DEFAULT_TIME_NEVER; //  
+		
+		const uint8_t INVERTED = 0x1;   // TODO: implemnt
+		const uint8_t SWITCHBACK = 0x2; // Use switchBackDefaultTime time to switch back to off 
+		uint8_t flags = INVERTED;
+		
+		void setSwitchBackTime(uint16_t t) {
+			switchBackTime = t;
+			if (t) {
+				flags |= SWITCHBACK; 
+			} else {
+				flags &= ~SWITCHBACK;
+			}
+		}
+		bool switchback() {
+			return flags & SWITCHBACK;
+		}
+	} config;
+private:
+	// uint8_t sensorId;
+	uint8_t pin;
+	MyMessage msg;
+	unsigned long switchedOnTime = 0; // millis() when output was switched on
 
   public:
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
@@ -37,8 +67,23 @@ class Output
     void present() {
       ::present(msg.sensor, S_BINARY);
     }
+    
+    bool isOn(){
+	    auto pin_state = digitalRead(pin);
+	    return not bool(pin_state); // TODO: Not always inverted
+    }
+    
+    void update() {
+	    if (config.switchback() and isOn() ) {
+		    //  if (millis () - startTime >= interval)
+		    if ( millis() - switchedOnTime >= config.switchBackTime*1000 ) {
+			set(false);
+		    }
+	    }
+    }
 
     void set(bool new_state) {
+	    // Sets logical on/off state and sends MyMessage back to controller 
         digitalWrite(pin, !new_state ); // TODO: not always inverted
         // TODO: Save state to EEPROM ?
         // void saveState(uint8_t pos, uint8_t value);   // https://www.mysensors.org/download/sensor_api_20
@@ -46,15 +91,16 @@ class Output
         
         // Serial_mysensors_logln("Output.set(): pin: ",pin);
         // Serial_mysensors_logln("                 state: ",!new_state);
-        
-        update();
+	switchedOnTime = millis();
+        sendState();
     }
+    
     void toggle() {
       auto pin_state = digitalRead(pin);
       set(pin_state); // TODO: not always inverted
     }
     
-    void update() {
+    void sendState() {
       auto pin_state = digitalRead(pin);  // https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/
       msg.set( ! pin_state); // TODO: not always inverted
       send(msg);

@@ -50,7 +50,7 @@ public:
 		bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
 		if ( ! inital_msgs_sent ) {
 			inputs.send_states(); 
-			outputs.update();
+			outputs.sendStates();
 			msg.setType(V_TEXT);
 			msg.setSensor(250);
 			msg.set(F("Presentation done"));
@@ -58,6 +58,7 @@ public:
 			inital_msgs_sent = true;
 		}
 		inputs.update();
+		outputs.update();
 	}
 	
 	bool processMessage(const MyMessage &message) {
