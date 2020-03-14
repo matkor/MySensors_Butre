@@ -35,8 +35,8 @@ class Input
     void configure(uint8_t sensorId, uint8_t pin,unsigned long debounce_interval_millis=10) {
       msg.setSensor(sensorId);
       pinMode(pin, INPUT_PULLUP); 
-      this->debouncer.attach(pin);
-      this->debouncer.interval(debounce_interval_millis);
+      debouncer.attach(pin);
+      debouncer.interval(debounce_interval_millis);
     }
 
     /*
@@ -73,7 +73,7 @@ class Input
 
     enum button_change_t { NO_CHANGE=0, RELEASED=1, PUSHED=2 } ;
 
-    bool send_state() {
+    bool sendState() {
       bool pin_state = debouncer.read();
       send(this->msg.set(!pin_state));  // Not pressed is HIGH
       return pin_state;
@@ -86,7 +86,7 @@ class Input
         // Get the update value.
         
         // Send in the new value.
-        bool pin_state = send_state();
+        bool pin_state = sendState();
         if (pin_state == HIGH) {
           // Serial_mysensors_logln("Button released");
           //action_released();
@@ -110,7 +110,7 @@ class Input
         return false;
       }
       if (recvMsg.type == V_STATUS && recvMsg.getCommand() == C_REQ ) {
-        send_state();
+        sendState();
         return true;
       }
       // TODO: If set state, consider performing actions like new state?

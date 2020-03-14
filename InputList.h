@@ -31,9 +31,9 @@ class InputList
       }
     }
       
-    void send_states() {
+    void sendStates() {
       for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
-        inputs[inputIdx].send_state();
+        inputs[inputIdx].sendState();
       }
     }    
     void update() {

@@ -42,7 +42,9 @@ const size_t BUTRE_OUTPUTS_NUM = sizeof(BUTRE_OUTPUT_PINS_LIST) / sizeof( BUTRE_
 const size_t BUTRE_INPUTS_NUM = sizeof(BUTRE_INPUT_PINS_LIST) / sizeof( BUTRE_INPUT_PINS_LIST[0] );
 
 
-
+// Default Nano config: 6 inputs  ,8 outputs
+// Sketch uses 9392 bytes (30%) of program storage space. Maximum is 30720 bytes.
+// Global variables use 1325 bytes (64%) of dynamic memory, leaving 723 bytes for local variables. Maximum is 2048 bytes
 
 
 

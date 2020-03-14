@@ -44,7 +44,7 @@ private:
 	MyMessage msg;
 	unsigned long switchedOnTime = 0; // millis() when output was switched on
 
-  public:
+public:
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
     
     Output(uint8_t sensorId=INVALID, uint8_t pin=INVALID):
