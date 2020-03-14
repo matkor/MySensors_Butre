@@ -25,6 +25,14 @@ void before() {
 
   butre.configureInputOn(0,ACTION_TOGGLE,0);
   butre.configureInputOn(1,ACTION_TOGGLE,1);
+
+  butre.outputs.outputs[0].config.setSwitchBackTime(3);
+  butre.outputs.outputs[0].config.setInverted(0);
+  
+  butre.outputs.outputs[1].config.setSwitchBackTime(10);
+
+  butre.outputs.outputs[2].config.setInverted(0);
+  
   
 }
 

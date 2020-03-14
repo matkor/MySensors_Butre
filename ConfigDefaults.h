@@ -27,7 +27,9 @@
 
 #ifndef BUTRE_INPUT_PINS
 // TODO: Defults per platform type
-#define BUTRE_INPUT_PINS {A0,A1,A2,A3,A6,A7}
+
+// In nano: A0 .. A5 are pins 14..17,  A6=20, A7=21
+#define BUTRE_INPUT_PINS {A0,A1,A2,A3,A6,A7}  
 #endif // BUTRE_OUTPUT_PINS
 
 #ifndef BUTRE_OUTPUT_PINS
