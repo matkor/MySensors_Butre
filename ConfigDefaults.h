@@ -25,17 +25,13 @@
   // D0,D1 - serial
   // A0 .. A5 are pins 14..19
 
-#ifndef BUTRE_INPUT_PINS
-// TODO: Defults per platform type
 
-// In nano: A0 .. A5 are pins 14..17,  A6=20, A7=21
-#define BUTRE_INPUT_PINS {A0,A1,A2,A3,A6,A7}  
-#endif // BUTRE_OUTPUT_PINS
+// #define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8,9} // Nano
+#define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8} // Butre piwnica
 
-#ifndef BUTRE_OUTPUT_PINS
-// TODO: Defults per platform type
-#define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8,9}
-#endif // BUTRE_OUTPUT_PINS
+// #define BUTRE_INPUT_PINS {A0,A1,A2,A3,A6,A7}  // Nano
+#define BUTRE_INPUT_PINS {A0}  // Butre piwnica
+
 
 const static uint8_t BUTRE_OUTPUT_PINS_LIST[] = BUTRE_OUTPUT_PINS ;  
 const static uint8_t BUTRE_INPUT_PINS_LIST[] = BUTRE_INPUT_PINS ;

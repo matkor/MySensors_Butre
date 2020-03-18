@@ -53,7 +53,7 @@ class InputList
 
 
     bool validIdx(uint8_t inputIdx){
-      return 0 <= inputIdx < BUTRE_INPUTS_NUM;
+      return 0 <= inputIdx and inputIdx < BUTRE_INPUTS_NUM;
     }
     
     void configureOnAction(uint8_t inputIdx, action_t action, uint8_t outputIdx) {

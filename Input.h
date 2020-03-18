@@ -39,23 +39,6 @@ class Input
       debouncer.interval(debounce_interval_millis);
     }
 
-    /*
-    void configure_action_pushed(action_t action, uint8_t relay_idx)
-    {
-      if ( valid_relay_idx(relay_idx) ) {
-        this->onConfig.action = action;
-        this->onConfig.relay_idx = relay_idx;
-      } else {
-          this->onConfig.disable();
-      }
-    }
-    */
-    
-
-    //void setup() {
-    //  pinMode(debouncer.get_pin(), INPUT_PULLUP);
-    //}
-
     void present()
     {
       // msg.getSensor  (   void      )
@@ -71,7 +54,7 @@ class Input
     //      debounce.
     //    }
 
-    enum button_change_t { NO_CHANGE=0, RELEASED=1, PUSHED=2 } ;
+    // enum button_change_t { NO_CHANGE=0, RELEASED=1, PUSHED=2 } ;
 
     bool sendState() {
       bool pin_state = debouncer.read();
@@ -79,27 +62,25 @@ class Input
       return pin_state;
     }
 
-    button_change_t update()
+    // button_change_t update()
+    bool update()
     // Calculate current button state, send update msg if change detected
     {
       if (debouncer.update()) {
-        // Get the update value.
-        
+        // Get the update value.        
         // Send in the new value.
         bool pin_state = sendState();
         if (pin_state == HIGH) {
-          // Serial_mysensors_logln("Button released");
-          //action_released();
           offConfig.performAction();
-          return RELEASED;
+          //return RELEASED;
         } else {
-          // Serial_mysensors_logln("Button pushed");
-          //action_pushed();
           onConfig.performAction();
-          return PUSHED;
+          //return PUSHED;
         }
+        return true;
       }
-      return NO_CHANGE;
+      // return NO_CHANGE;
+      return false;
     };
 
 
@@ -115,10 +96,8 @@ class Input
       }
       // TODO: If set state, consider performing actions like new state?
       return false;
-    }
-    
+    }    
 };
-
 
 
 #endif // __MYSENSORS_BUTRE_INPUT_H_INCLUDED__   

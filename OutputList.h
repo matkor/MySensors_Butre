@@ -21,7 +21,7 @@ class OutputList
     }
     
 	bool validIdx(uint8_t outputIdx) {
-		return 0 <= outputIdx < BUTRE_OUTPUTS_NUM;
+		return 0 <= outputIdx and outputIdx < BUTRE_OUTPUTS_NUM;
 	}
    
     // bool valid_id(uint8_t output_idx) // TODO: Make static

@@ -46,15 +46,33 @@ public:
 		::present(250,S_INFO,F("Status/config"));
 	}
 	
+	void sendStatusConfig(const char * txt) {
+		msg.setType(V_TEXT);
+		msg.setSensor(250);
+		msg.set(txt);
+		send(msg);
+	}
+	
+	void sendStatusConfig(const __FlashStringHelper * txt) {
+		msg.setType(V_TEXT);
+		msg.setSensor(250);
+		msg.set(txt);
+		send(msg);
+	}
+	
 	void loop() {
 		bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
 		if ( ! inital_msgs_sent ) {
 			inputs.sendStates(); 
 			outputs.sendStates();
+			/*
 			msg.setType(V_TEXT);
 			msg.setSensor(250);
 			msg.set(F("Presentation done"));
 			send(msg);
+			*/
+			sendStatusConfig(F("Presentation done"));
+			
 			inital_msgs_sent = true;
 		}
 		inputs.update();
@@ -72,6 +90,9 @@ public:
 	void configureInputOn(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
 		if ( inputs.validIdx(inputIdx) and outputs.validIdx(outputIdx) ) {
 			inputs.inputs[inputIdx].onConfig.setAction(action,outputIdx);
+			// sendStatusConfig("configure valid");
+		} else {
+			sendStatusConfig(F("nonvalid input/output idxs"));
 		}
 	}
 	
