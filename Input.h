@@ -41,12 +41,11 @@ class Input
 
     void present()
     {
+	// bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
       // msg.getSensor  (   void      )
       // ::present(msg.getSensor(), S_BINARY);
-      ::present(msg.sensor, S_BINARY);
-
+      ::present(msg.sensor, S_BINARY, F("Input"));
       //Serial_mysensors_logln("Button presented as sensorId: ",msg.sensor); // Id of sensor that this message concerns. 
-
     }
     //    void
     //    attach(uint8_t pin, uint16_t interval_millis){

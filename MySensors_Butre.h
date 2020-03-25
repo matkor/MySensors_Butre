@@ -65,7 +65,7 @@ public:
 		
 		// bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
 		if ( ! inital_msgs_sent ) {
-			Serial_mysensors_logln("not inital_msgs_sent, sending states.");
+			// Serial_mysensors_logln("not inital_msgs_sent, sending states.");
 			bool sendResult = true;
 			sendResult &= inputs.sendStates(); 
 			sendResult &= outputs.sendStates();
@@ -78,9 +78,9 @@ public:
 			if (sendResult) {
 				sendStatusConfig(F("Presentation done"));
 				inital_msgs_sent = true;
-				Serial_mysensors_logln("inital_msgs_sent = true;");
+				// Serial_mysensors_logln("inital_msgs_sent = true;");
 			} else {
-				Serial_mysensors_logln("inital_msgs_sent = false;");
+				// Serial_mysensors_logln("inital_msgs_sent = false;");
 			}
 		}
 		inputs.update();
@@ -88,24 +88,12 @@ public:
 	}
 	
 	bool processMessage(const MyMessage &message) {
-		/*
-		if (message.type == I_DISCOVER_REQUEST) {
-			inital_msgs_sent = false;
-			return;
-		}			
-		if (message.type == I_PRESENT) {
-			inital_msgs_sent = false;
-			return;
-		}*/
-		
-		
-		
 		if ( inputs.processMessage(message) ) {
 			return true; 
 		} else if ( outputs.processMessage(message) ) {
 			return true;
 		}
-		Serial_mysensors_logln("Unprocessed message type:",message.type);
+		// Serial_mysensors_logln("Unprocessed message type:",message.type);
 		return false;
 	}
 	

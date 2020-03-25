@@ -27,7 +27,7 @@
 
 
 // #define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8,9} // Nano
-#define BUTRE_OUTPUT_PINS {23,33,24,25} // Mega
+#define BUTRE_OUTPUT_PINS {22,23,24,25,26} // Mega
 
 // #define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8} // Butre piwnica
 

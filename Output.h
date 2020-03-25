@@ -77,7 +77,8 @@ public:
     }
 
     void present() {
-      ::present(msg.sensor, S_BINARY);
+	// bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
+	::present(msg.sensor, S_BINARY,F("Output"));
     }
     
     bool isOn(){
