@@ -54,11 +54,15 @@ class Input
     //    }
 
     // enum button_change_t { NO_CHANGE=0, RELEASED=1, PUSHED=2 } ;
-
     bool sendState() {
+      bool state; 
+      return sendState(state);
+    }
+
+    bool sendState(bool & state) {
       bool pin_state = debouncer.read();
-      bool state = !pin_state; // TODO: not always inverted
-      return send(this->msg.set(state));  // Not pressed is HIGH
+      state = !pin_state; // TODO: not always inverted
+      return send(msg.set(state));  // Not pressed is HIGH
     }
 
     // button_change_t update()
@@ -66,15 +70,17 @@ class Input
     // Calculate current button state, send update msg if change detected
     {
       if (debouncer.update()) {
-        // Get the update value.        
-        // Send in the new value.
-        bool pin_state = sendState();
-        if (pin_state) {
-          onConfig.performAction();
-          //return PUSHED;
+	// Serial_mysensors_logln("debouncer.update()");
+	bool state;
+	sendState(state);
+        if (state) {
+		// Serial_mysensors_logln("state - pushed");
+		onConfig.performAction();
+		//return PUSHED;
         } else {
-          offConfig.performAction();
-          //return RELEASED;
+		// Serial_mysensors_logln("not state - released");
+		offConfig.performAction();
+		//return RELEASED;
         }
         return true;
       }
