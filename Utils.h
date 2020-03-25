@@ -3,21 +3,21 @@
 
 #include <Bounce2.h>
 
-/*
-void
+
+static void
 Serial_mysensors_log_intro()
 {
 	Serial.print("0;255;3;0;9;");
 }
 
-void
+static void 
 Serial_mysensors_logln(const char * txt)
 {
 	Serial_mysensors_log_intro();
 	Serial.println(txt);
 };
 
-void
+static void
 Serial_mysensors_logln(const char * txt, int val)
 {
 	Serial_mysensors_log_intro();
@@ -25,7 +25,7 @@ Serial_mysensors_logln(const char * txt, int val)
 	Serial.print(val);
 	Serial.println();
 };
-*/
+
 
 class BounceExt: public Bounce
 {

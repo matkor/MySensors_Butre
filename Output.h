@@ -107,10 +107,10 @@ public:
 		set(not isOn() ); 
 	}
     
-    void sendState() {
+    bool sendState() {
       auto pin_state = digitalRead(pin);  // https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/
       msg.set( pin_state xor config.inverted() ); 
-      send(msg);
+      return send(msg);
     }
 
     bool processMessage(const MyMessage & recv_msg) {

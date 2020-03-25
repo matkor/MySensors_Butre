@@ -58,8 +58,8 @@ class Input
 
     bool sendState() {
       bool pin_state = debouncer.read();
-      send(this->msg.set(!pin_state));  // Not pressed is HIGH
-      return pin_state;
+      bool state = !pin_state; // TODO: not always inverted
+      return send(this->msg.set(state));  // Not pressed is HIGH
     }
 
     // button_change_t update()
@@ -70,12 +70,12 @@ class Input
         // Get the update value.        
         // Send in the new value.
         bool pin_state = sendState();
-        if (pin_state == HIGH) {
-          offConfig.performAction();
-          //return RELEASED;
-        } else {
+        if (pin_state) {
           onConfig.performAction();
           //return PUSHED;
+        } else {
+          offConfig.performAction();
+          //return RELEASED;
         }
         return true;
       }

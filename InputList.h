@@ -31,11 +31,14 @@ class InputList
       }
     }
       
-    void sendStates() {
-      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
-        inputs[inputIdx].sendState();
-      }
-    }    
+    bool sendStates() {
+	bool sendResult = true;
+	for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+		sendResult = sendResult and inputs[inputIdx].sendState();
+	}
+	return sendResult;
+    }
+    
     void update() {
       for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
         inputs[inputIdx].update();

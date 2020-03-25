@@ -46,10 +46,12 @@ class OutputList
       }
     }
     
-    void sendStates() {
-      for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
-        outputs[output_idx].sendState();
-      }
+    bool sendStates() {
+	bool sendResult = true;
+	for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
+		sendResult = sendResult and outputs[output_idx].sendState();
+	}
+	return sendResult;
     }    
     
     bool processMessage(const MyMessage & recv_msg) {

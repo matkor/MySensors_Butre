@@ -28,6 +28,7 @@ public:
 	OutputList outputs;
 	
 private:
+	bool inital_msgs_sent = false; // Flag if initial state messages ware sent , or was requested again
 	MyMessage msg;
 public: 
 	void before() {
@@ -61,29 +62,51 @@ public:
 	}
 	
 	void loop() {
-		bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
+		
+		// bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
 		if ( ! inital_msgs_sent ) {
-			inputs.sendStates(); 
-			outputs.sendStates();
+			Serial_mysensors_logln("not inital_msgs_sent, sending states.");
+			bool sendResult = true;
+			sendResult &= inputs.sendStates(); 
+			sendResult &= outputs.sendStates();
 			/*
 			msg.setType(V_TEXT);
 			msg.setSensor(250);
 			msg.set(F("Presentation done"));
 			send(msg);
 			*/
-			sendStatusConfig(F("Presentation done"));
-			
-			inital_msgs_sent = true;
+			if (sendResult) {
+				sendStatusConfig(F("Presentation done"));
+				inital_msgs_sent = true;
+				Serial_mysensors_logln("inital_msgs_sent = true;");
+			} else {
+				Serial_mysensors_logln("inital_msgs_sent = false;");
+			}
 		}
 		inputs.update();
 		outputs.update();
 	}
 	
 	bool processMessage(const MyMessage &message) {
+		/*
+		if (message.type == I_DISCOVER_REQUEST) {
+			inital_msgs_sent = false;
+			return;
+		}			
+		if (message.type == I_PRESENT) {
+			inital_msgs_sent = false;
+			return;
+		}*/
+		
+		
+		
 		if ( inputs.processMessage(message) ) {
 			return true; 
+		} else if ( outputs.processMessage(message) ) {
+			return true;
 		}
-		return outputs.processMessage(message);
+		Serial_mysensors_logln("Unprocessed message type:",message.type);
+		return false;
 	}
 	
 	
@@ -96,6 +119,14 @@ public:
 		}
 	}
 	
+	void configureInputOff(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
+		if ( inputs.validIdx(inputIdx) and outputs.validIdx(outputIdx) ) {
+			inputs.inputs[inputIdx].offConfig.setAction(action,outputIdx);
+			// sendStatusConfig("configure valid");
+		} else {
+			sendStatusConfig(F("nonvalid input/output idxs"));
+		}
+	}
 };
 
 extern Butre butre;
