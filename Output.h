@@ -52,24 +52,23 @@ public:
 	} config;
 private:
 	// uint8_t sensorId;
-	uint8_t pin;
-	MyMessage msg;
+	// uint8_t pin;
+	MyMessage msg;  // Keeps sensorId/pin
 	unsigned long switchedOnTime = 0; // millis() when output was switched on
 
 public:
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
     
-    Output(uint8_t sensorId=INVALID, uint8_t pin=INVALID):
-      msg(sensorId, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
-      , pin(pin)
+    Output(uint8_t pin=INVALID):
+      msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
     {}
 
-    void configure(uint8_t sensorId, uint8_t pin) {
-      this->pin = pin;
-      msg.setSensor(sensorId);
+    void configure(uint8_t pin) {
+      msg.setSensor(pin);
     }
 
     void before() {
+	uint8_t pin = msg.sensor;
       pinMode(pin, OUTPUT);
       bool is_on = false;   // TODO: Load state from EEPROM ?
       bool pin_high = is_on xor config.inverted();
@@ -82,6 +81,7 @@ public:
     }
     
     bool isOn(){
+	    uint8_t pin = msg.sensor;
 	    auto pin_state = digitalRead(pin);
 	    return bool(pin_state) xor config.inverted();
     }
@@ -97,6 +97,7 @@ public:
 
 	void set(bool newState) {
 	    // Sets logical on/off state and sends MyMessage back to controller 
+		uint8_t pin = msg.sensor;
 		bool pinHigh = newState xor config.inverted();
 		digitalWrite(pin, pinHigh );
 		// TODO: Save state to EEPROM ?
@@ -109,6 +110,7 @@ public:
 	}
     
     bool sendState() {
+      uint8_t pin = msg.sensor;
       auto pin_state = digitalRead(pin);  // https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/
       msg.set( pin_state xor config.inverted() ); 
       return send(msg);

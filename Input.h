@@ -24,16 +24,17 @@ class Input
     ActionConfig offConfig;
   
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
-    Input(uint8_t sensorId = INVALID, uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
+    // Input(uint8_t sensorId = INVALID, uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
+    Input(uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
       debouncer(pin, debounce_interval_millis)
-      , msg(sensorId, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
+      , msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
       // S_BINARY sends V_STATUS
       // ,sensorId(sensorId)
       // ,pin(pin)
     {}
 
-    void configure(uint8_t sensorId, uint8_t pin,unsigned long debounce_interval_millis=10) {
-      msg.setSensor(sensorId);
+    void configure(uint8_t pin,unsigned long debounce_interval_millis=10) {
+      msg.setSensor(pin);
       pinMode(pin, INPUT_PULLUP); 
       debouncer.attach(pin);
       debouncer.interval(debounce_interval_millis);

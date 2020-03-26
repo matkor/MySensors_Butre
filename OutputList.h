@@ -16,7 +16,7 @@ class OutputList
     OutputList() {
       for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
         uint8_t pin = BUTRE_OUTPUT_PINS_LIST[output_idx];
-        outputs[output_idx].configure(pin, pin);  // Sensor id is pin number
+        outputs[output_idx].configure(pin);  // Sensor id is pin number
       }
     }
     

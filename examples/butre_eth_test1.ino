@@ -1,5 +1,5 @@
 // Enable debug prints to serial monitor
-#define MY_DEBUG
+// #define MY_DEBUG
 
 // Enable serial gateway
 // #define MY_GATEWAY_SERIAL
@@ -31,6 +31,14 @@
 #include <MySensors_Butre.h>
 
 
+
+Input inputs[] = {
+  Input(30,10),
+  Input(31,10),   
+};
+
+
+
 // Optional method - for initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
 void before() {
   // Serial_mysensors_logln("CALLED: before()");
@@ -43,11 +51,11 @@ void before() {
   butre.configureInputOn(1,ACTION_TOGGLE,1);
 
   butre.outputs.outputs[0].config.setSwitchBackTime(3);
-  butre.outputs.outputs[0].config.setInverted(0);
+  // butre.outputs.outputs[0].config.setInverted(0);
   
   butre.outputs.outputs[1].config.setSwitchBackTime(10);
 
-  butre.outputs.outputs[2].config.setInverted(0);
+  // butre.outputs.outputs[2].config.setInverted(0);
 }
 
 void setup() {
