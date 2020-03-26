@@ -28,8 +28,8 @@ class ActionConfig
 			action = actionNew;
 			outputIdx = outputIdxNew;
 		};
-		void 
-		performAction();
+		// void 
+		// performAction();
 
 };
 

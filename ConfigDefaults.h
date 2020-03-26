@@ -32,16 +32,16 @@
 // #define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8} // Butre piwnica
 
 // #define BUTRE_INPUT_PINS {A0,A1,A2,A3,A6,A7}  // Nano
-#define BUTRE_INPUT_PINS {A0,A1}  // Mega
+// #define BUTRE_INPUT_PINS {A0,A1}  // Mega
 
 // #define BUTRE_INPUT_PINS {A0}  // Butre piwnica
 
 
 const static uint8_t BUTRE_OUTPUT_PINS_LIST[] = BUTRE_OUTPUT_PINS ;  
-const static uint8_t BUTRE_INPUT_PINS_LIST[] = BUTRE_INPUT_PINS ;
+//const static uint8_t BUTRE_INPUT_PINS_LIST[] = BUTRE_INPUT_PINS ;
 
 const size_t BUTRE_OUTPUTS_NUM = sizeof(BUTRE_OUTPUT_PINS_LIST) / sizeof( BUTRE_OUTPUT_PINS_LIST[0] );
-const size_t BUTRE_INPUTS_NUM = sizeof(BUTRE_INPUT_PINS_LIST) / sizeof( BUTRE_INPUT_PINS_LIST[0] );
+// const size_t BUTRE_INPUTS_NUM = sizeof(BUTRE_INPUT_PINS_LIST) / sizeof( BUTRE_INPUT_PINS_LIST[0] );
 
 
 // Default Nano config: 6 inputs  ,8 outputs

@@ -4,49 +4,69 @@
 #include "ConfigDefaults.h"
 #include "Input.h"
 
+// https://stackoverflow.com/questions/26269777/passing-unknown-array-to-function-by-reference-c
+
+
+// template<size_t INPUTS_NUM>
 class InputList
 // Inputs manager
 //
 {
-  public:
-     Input inputs[BUTRE_INPUTS_NUM];  // TODO: convert to operator[] to avoid inputs.inputs[X] ?
+  // Input (& inputs) [INPUTS_NUM];  // TODO: convert to operator[] to avoid inputs.inputs[X] ?
+  Input * inputs;  // TODO: make private
+  const uint8_t INPUTS_NUM;
   
   public:
+	  /*
     InputList() {
-      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+      for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
         uint8_t pin = BUTRE_INPUT_PINS_LIST[inputIdx];
         inputs[inputIdx].configure(pin, pin);  // Sensor id is pin number
       }
     }
+    */
+  
+  /*
+  InputList( Input (& inputs) [INPUTS_NUM]):
+	inputs(inputs)
+  {
+		
+  }
+  */
+  InputList( Input  * inputs, const uint8_t INPUTS_NUM):
+	inputs(inputs), INPUTS_NUM(INPUTS_NUM) 
+	{}
+  
+    
     
 //    void before() {
-//      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+//      for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
 //        inputs[inputIdx].before();
 //      }      
 //    }
     
     void present() {
-      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+      for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
         inputs[inputIdx].present();
       }
     }
       
     bool sendStates() {
 	bool sendResult = true;
-	for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+	for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
 		sendResult = sendResult and inputs[inputIdx].sendState();
 	}
 	return sendResult;
     }
     
     void update() {
-      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+      for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
         inputs[inputIdx].update();
       }
     }    
     
     bool processMessage(const MyMessage & recv_msg) {
-      for (int inputIdx = 0 ; inputIdx < BUTRE_INPUTS_NUM; inputIdx ++ ) {
+      for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
         if ( inputs[inputIdx].processMessage(recv_msg) ) {
           return true;
         }
@@ -56,7 +76,7 @@ class InputList
 
 
     bool validIdx(uint8_t inputIdx){
-      return 0 <= inputIdx and inputIdx < BUTRE_INPUTS_NUM;
+      return 0 <= inputIdx and inputIdx < INPUTS_NUM;
     }
     
     void configureOnAction(uint8_t inputIdx, action_t action, uint8_t outputIdx) {

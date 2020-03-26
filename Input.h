@@ -66,7 +66,7 @@ class Input
       return send(msg.set(state));  // Not pressed is HIGH
     }
 
-    // button_change_t update()
+    // button_change_t update()  // TODO: return action_t
     bool update()
     // Calculate current button state, send update msg if change detected
     {
@@ -74,6 +74,7 @@ class Input
 	// Serial_mysensors_logln("debouncer.update()");
 	bool state;
 	sendState(state);
+	/*
         if (state) {
 		// Serial_mysensors_logln("state - pushed");
 		onConfig.performAction();
@@ -82,7 +83,7 @@ class Input
 		// Serial_mysensors_logln("not state - released");
 		offConfig.performAction();
 		//return RELEASED;
-        }
+        }*/
         return true;
       }
       // return NO_CHANGE;

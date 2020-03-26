@@ -1,6 +1,7 @@
 #include "ActionConfig.h"
 #include "MySensors_Butre.h"
 
+/*
 void 
 ActionConfig::performAction()
 {
@@ -17,6 +18,7 @@ ActionConfig::performAction()
   }
 
 }
+*/
 
 
 

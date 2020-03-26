@@ -32,11 +32,40 @@
 
 
 
+// Mega A0...     54...
 Input inputs[] = {
-  Input(30,10),
-  Input(31,10),   
+  Input(54,10),  // Mega A0
+  Input(55,10),   
 };
+const uint8_t INPUTS_NUM = sizeof(inputs) / sizeof( inputs[0] );
+// InputList<INPUTS_NUM> inputList(inputs);
+InputList inputList(inputs, INPUTS_NUM);
 
+
+Output outputs[] = {
+  Output(22),
+  Output(23),
+  Output(24),
+  Output(25),
+  Output(26),
+};
+const uint8_t OUTPUTS_NUM = sizeof(outputs) / sizeof( outputs[0] );
+
+/*
+class Butre2
+{
+public:
+  // # https://stackoverflow.com/questions/10007986/c-pass-an-array-by-reference
+  // Make it template ?
+  Butre2() {
+    for (int idx = 0 ; idx < inputs_num; idx ++ ) {
+      Input & input = inputs[idx];
+    }
+  }
+  
+};*/
+// Butre<inputs_num>  butre(inputList);
+Butre butre(inputList);
 
 
 // Optional method - for initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
