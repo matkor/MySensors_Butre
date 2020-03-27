@@ -27,22 +27,24 @@ class Butre {
 public:
 	InputList & inputList;
 	// InputList<INPUTS_NUM> & inputList;
-	OutputList outputs;
+	// OutputList outputs;
+	OutputList & outputList;
 	
 private:
 	bool inital_msgs_sent = false; // Flag if initial state messages ware sent , or was requested again
 	MyMessage msg;
 public:	
 	// Butre(InputList<INPUTS_NUM> & inputList):
-	Butre(InputList & inputList):
-		inputList(inputList)
+	Butre(InputList & inputList, OutputList & outputList):
+		inputList(inputList),
+		outputList(outputList)
 	{
 		
 	}
 		
 	void before() {
 		//inputList.before(); // No before() for Inputs
-		outputs.before();
+		outputList.before();
 	}
 		
 	void present(const char * sketchName, const char * version) 
@@ -50,7 +52,7 @@ public:
 		// bool sendSketchInfo(const char *name, const char *version, bool echo);
 		sendSketchInfo(sketchName, version);
 		inputList.present();
-		outputs.present();
+		outputList.present();
 		
 		// bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
 		::present(250,S_INFO,F("Status/config"));
@@ -77,7 +79,7 @@ public:
 			// Serial_mysensors_logln("not inital_msgs_sent, sending states.");
 			bool sendResult = true;
 			sendResult &= inputList.sendStates(); 
-			sendResult &= outputs.sendStates();
+			sendResult &= outputList.sendStates();
 			/*
 			msg.setType(V_TEXT);
 			msg.setSensor(250);
@@ -93,14 +95,14 @@ public:
 			}
 		}
 		inputList.update();
-		outputs.update();
+		outputList.update();
 	}
 	
 	bool processMessage(const MyMessage &message) {
 		
 		if ( inputList.processMessage(message) ) {
 			return true; 
-		} else if ( outputs.processMessage(message) ) {
+		} else if ( outputList.processMessage(message) ) {
 			return true;
 		}
 		// Serial_mysensors_logln("Unprocessed message type:",message.type);
@@ -110,7 +112,7 @@ public:
 	
 	void configureInputOn(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
 		/*
-		if ( inputs.validIdx(inputIdx) and outputs.validIdx(outputIdx) ) {
+		if ( inputs.validIdx(inputIdx) and outputList.validIdx(outputIdx) ) {
 			inputs.inputs[inputIdx].onConfig.setAction(action,outputIdx);
 			// sendStatusConfig("configure valid");
 		} else {
@@ -121,7 +123,7 @@ public:
 	
 	void configureInputOff(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
 		/*
-		if ( inputs.validIdx(inputIdx) and outputs.validIdx(outputIdx) ) {
+		if ( inputs.validIdx(inputIdx) and outputList.validIdx(outputIdx) ) {
 			inputs.inputs[inputIdx].offConfig.setAction(action,outputIdx);
 			// sendStatusConfig("configure valid");
 		} else {

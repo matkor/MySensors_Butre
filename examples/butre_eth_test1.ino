@@ -50,22 +50,10 @@ Output outputs[] = {
   Output(26),
 };
 const uint8_t OUTPUTS_NUM = sizeof(outputs) / sizeof( outputs[0] );
+OutputList outputList(outputs, OUTPUTS_NUM);
 
-/*
-class Butre2
-{
-public:
-  // # https://stackoverflow.com/questions/10007986/c-pass-an-array-by-reference
-  // Make it template ?
-  Butre2() {
-    for (int idx = 0 ; idx < inputs_num; idx ++ ) {
-      Input & input = inputs[idx];
-    }
-  }
-  
-};*/
 // Butre<inputs_num>  butre(inputList);
-Butre butre(inputList);
+Butre butre(inputList,outputList);
 
 
 // Optional method - for initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
@@ -79,10 +67,10 @@ void before() {
   butre.configureInputOn(0,ACTION_TOGGLE,0);
   butre.configureInputOn(1,ACTION_TOGGLE,1);
 
-  butre.outputs.outputs[0].config.setSwitchBackTime(3);
+  // butre.outputs.outputs[0].config.setSwitchBackTime(3);
   // butre.outputs.outputs[0].config.setInverted(0);
   
-  butre.outputs.outputs[1].config.setSwitchBackTime(10);
+  // butre.outputs.outputs[1].config.setSwitchBackTime(10);
 
   // butre.outputs.outputs[2].config.setInverted(0);
 }

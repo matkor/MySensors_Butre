@@ -27,7 +27,7 @@
 
 
 // #define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8,9} // Nano
-#define BUTRE_OUTPUT_PINS {22,23,24,25,26} // Mega
+// #define BUTRE_OUTPUT_PINS {22,23,24,25,26} // Mega
 
 // #define BUTRE_OUTPUT_PINS {2,3,4,5,6,7,8} // Butre piwnica
 
@@ -37,10 +37,10 @@
 // #define BUTRE_INPUT_PINS {A0}  // Butre piwnica
 
 
-const static uint8_t BUTRE_OUTPUT_PINS_LIST[] = BUTRE_OUTPUT_PINS ;  
+// const static uint8_t BUTRE_OUTPUT_PINS_LIST[] = BUTRE_OUTPUT_PINS ;  
 //const static uint8_t BUTRE_INPUT_PINS_LIST[] = BUTRE_INPUT_PINS ;
 
-const size_t BUTRE_OUTPUTS_NUM = sizeof(BUTRE_OUTPUT_PINS_LIST) / sizeof( BUTRE_OUTPUT_PINS_LIST[0] );
+// const size_t BUTRE_OUTPUTS_NUM = sizeof(BUTRE_OUTPUT_PINS_LIST) / sizeof( BUTRE_OUTPUT_PINS_LIST[0] );
 // const size_t BUTRE_INPUTS_NUM = sizeof(BUTRE_INPUT_PINS_LIST) / sizeof( BUTRE_INPUT_PINS_LIST[0] );
 
 
