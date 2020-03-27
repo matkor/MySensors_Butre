@@ -38,7 +38,13 @@ class InputList
 	{}
   
     
-    
+    void before() 
+	// initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).    
+    {
+      for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
+        inputs[inputIdx].before();
+      }
+    }
 //    void before() {
 //      for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
 //        inputs[inputIdx].before();

@@ -15,7 +15,7 @@ class Input
   private:
     BounceExt debouncer; // https://github.com/thomasfredericks/Bounce2/wiki
     // uint8_t pin;  // Needed as: error: 'uint8_t Bounce::pin' is protected
-    uint8_t sensorId;
+    // uint8_t sensorId;
     MyMessage msg;
 
 
@@ -24,6 +24,7 @@ class Input
     ActionConfig offConfig;
   
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
+    
     // Input(uint8_t sensorId = INVALID, uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
     Input(uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
       debouncer(pin, debounce_interval_millis)
@@ -33,26 +34,22 @@ class Input
       // ,pin(pin)
     {}
 
-    void configure(uint8_t pin,unsigned long debounce_interval_millis=10) {
-      msg.setSensor(pin);
+    void before() 
+	// initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
+    {	
+      const uint8_t pin = msg.sensor;
       pinMode(pin, INPUT_PULLUP); 
-      debouncer.attach(pin);
-      debouncer.interval(debounce_interval_millis);
+      // Serial_mysensors_logln("Input configured pin: ", pin);
     }
 
     void present()
     {
-	// bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
+      // bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
       // msg.getSensor  (   void      )
       // ::present(msg.getSensor(), S_BINARY);
       ::present(msg.sensor, S_BINARY, F("Input"));
       //Serial_mysensors_logln("Button presented as sensorId: ",msg.sensor); // Id of sensor that this message concerns. 
     }
-    //    void
-    //    attach(uint8_t pin, uint16_t interval_millis){
-    //      debounce.attach(pin)
-    //      debounce.
-    //    }
 
     // enum button_change_t { NO_CHANGE=0, RELEASED=1, PUSHED=2 } ;
     bool sendState() {
@@ -71,19 +68,19 @@ class Input
     // Calculate current button state, send update msg if change detected
     {
       if (debouncer.update()) {
-	// Serial_mysensors_logln("debouncer.update()");
+	// Serial_mysensors_logln("debouncer.update() pin: ", msg.sensor);
 	bool state;
 	sendState(state);
-	/*
+	
         if (state) {
 		// Serial_mysensors_logln("state - pushed");
-		onConfig.performAction();
+		// onConfig.performAction();
 		//return PUSHED;
         } else {
 		// Serial_mysensors_logln("not state - released");
-		offConfig.performAction();
+		// offConfig.performAction();
 		//return RELEASED;
-        }*/
+        }
         return true;
       }
       // return NO_CHANGE;
