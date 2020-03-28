@@ -29,21 +29,25 @@ public:
 	// InputList<INPUTS_NUM> & inputList;
 	// OutputList outputs;
 	OutputList & outputList;
+	ActionConfigList & actionList;
 	
 private:
 	bool inital_msgs_sent = false; // Flag if initial state messages ware sent , or was requested again
 	MyMessage msg;
 public:	
 	// Butre(InputList<INPUTS_NUM> & inputList):
-	Butre(InputList & inputList, OutputList & outputList):
+	Butre(InputList & inputList, OutputList & outputList, ActionConfigList & actionList):
 		inputList(inputList),
-		outputList(outputList)
+		outputList(outputList),
+		actionList(actionList)
 	{
 		
 	}
 		
-	void before() {
-		//inputList.before(); // No before() for Inputs
+	void before() 
+	// initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
+	{
+		inputList.before();
 		outputList.before();
 	}
 		
@@ -110,7 +114,8 @@ public:
 	}
 	
 	
-	void configureInputOn(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
+	void configureInputOn(uint8_t inputPin, action_t action, uint8_t outputPin) {
+		
 		/*
 		if ( inputs.validIdx(inputIdx) and outputList.validIdx(outputIdx) ) {
 			inputs.inputs[inputIdx].onConfig.setAction(action,outputIdx);
@@ -121,7 +126,7 @@ public:
 		*/
 	}
 	
-	void configureInputOff(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
+	void configureInputOff(uint8_t inputPin, action_t action, uint8_t outputPin) {
 		/*
 		if ( inputs.validIdx(inputIdx) and outputList.validIdx(outputIdx) ) {
 			inputs.inputs[inputIdx].offConfig.setAction(action,outputIdx);

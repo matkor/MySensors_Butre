@@ -20,8 +20,8 @@ class Input
 
 
   public:
-    ActionConfig onConfig;
-    ActionConfig offConfig;
+    // ActionConfig onConfig;
+    // ActionConfig offConfig;
   
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
     

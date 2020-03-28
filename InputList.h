@@ -85,11 +85,13 @@ class InputList
       return 0 <= inputIdx and inputIdx < INPUTS_NUM;
     }
     
+    /*
     void configureOnAction(uint8_t inputIdx, action_t action, uint8_t outputIdx) {
 	if ( validIdx(inputIdx)  ) { // and outputs.validIdx(outputIdx)
 		inputs[inputIdx].onConfig.setAction(action,outputIdx);
 	}
     }
+    */
     
 };
 

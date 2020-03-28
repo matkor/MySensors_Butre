@@ -34,8 +34,8 @@
 
 // Mega A0...     54...
 Input inputs[] = {
-  Input(54,10),  // Mega A0
-  Input(55,10),   
+  Input(A0,10),  // pin 54 is A0 ?
+  Input(A1,10),  // pin 55 is A1 ? 
 };
 const uint8_t INPUTS_NUM = sizeof(inputs) / sizeof( inputs[0] );
 // InputList<INPUTS_NUM> inputList(inputs);
@@ -52,8 +52,16 @@ Output outputs[] = {
 const uint8_t OUTPUTS_NUM = sizeof(outputs) / sizeof( outputs[0] );
 OutputList outputList(outputs, OUTPUTS_NUM);
 
+
+ActionConfig actions[] = {
+  ActionConfig(54,WHEN_ON+ACTION_ON,22),
+};
+
+const uint8_t ACTIONS_NUM = sizeof(actions) / sizeof( actions[0] );
+ActionConfigList actionList(actions,ACTIONS_NUM);
+
 // Butre<inputs_num>  butre(inputList);
-Butre butre(inputList,outputList);
+Butre butre(inputList,outputList,actionList);
 
 
 // Optional method - for initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
@@ -65,7 +73,7 @@ void before() {
   // Serial_mysensors_logln("DONE: before()");
 
   butre.configureInputOn(0,ACTION_TOGGLE,0);
-  butre.configureInputOn(1,ACTION_TOGGLE,1);
+  // butre.configureInputOn(1,ACTION_TOGGLE,1);
 
   // butre.outputs.outputs[0].config.setSwitchBackTime(3);
   // butre.outputs.outputs[0].config.setInverted(0);
