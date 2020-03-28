@@ -8,9 +8,10 @@ enum action_t {
 	NO_ACTION = 0,
 	ACTION_ON = 1,
 	ACTION_OFF = 2,
-	ACTION_TOGGLE = ACTION_ON+ACTION_OFF,
-	ACTION_SAME = 5, 
-	ACTION_INVERT = 6, 
+	ACTION_TOGGLE = 3,
+	ACTION_SAME = 4, 
+	ACTION_INVERT = 5,
+	ACTION_MASK = 7, 
 	WHEN_OFF = 64, 
 	WHEN_ON = 128,
 	WHEN_CHANGE = WHEN_OFF+WHEN_ON
@@ -23,12 +24,12 @@ class ActionConfig
 	public:
 		const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
 		uint8_t inputPin = INVALID;
-		uint8_t action = NO_ACTION;
+		uint8_t whenAction = NO_ACTION;
 		uint8_t outputPin = INVALID;
 
-		ActionConfig(const uint8_t inputPin=INVALID, uint8_t action=NO_ACTION, uint8_t outputPin=INVALID):
+		ActionConfig(const uint8_t inputPin=INVALID, uint8_t whenAction=NO_ACTION, uint8_t outputPin=INVALID):
 			inputPin(inputPin), 
-			action(action), 
+			whenAction(whenAction), 
 			outputPin(outputPin)
 		{
 		
@@ -37,22 +38,23 @@ class ActionConfig
 		void 
 		disable(){
 			inputPin = INVALID;
-			action = NO_ACTION;
+			whenAction = NO_ACTION;
 			outputPin = INVALID;
 		};
-		/*
-		void 
-		setAction(action_t actionNew,uint8_t outputIdxNew) {
-			action = actionNew;
-			outputIdx = outputIdxNew;
-		};
-		*/
-		// void 
-		// performAction();
+		
+		uint8_t action() {
+			return whenAction & ACTION_MASK;
+		}
+		
 		bool whenOn() 
 		//  Action condition matches ON change state
 		{
-			return action && WHEN_ON;
+			return whenAction & WHEN_ON;
+		}
+		bool whenOff() 
+		//  Action condition matches OFF change state
+		{
+			return whenAction & WHEN_OFF;
 		}
 
 };
@@ -68,7 +70,7 @@ public:
 		actions(actions), ACTIONS_NUM(ACTIONS_NUM) 
 	{}
 
-	
+	/*
 	ActionConfig & 
 	operator[] (uint8_t index) {                               //  NOTE: not tested !
 		if ( index >= ACTIONS_NUM) {
@@ -78,6 +80,7 @@ public:
 		}			
 		return actions[index];
 	}
+	*/
 
 };
 

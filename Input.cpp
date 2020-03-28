@@ -29,9 +29,9 @@ Input::update(Butre & butre)
 				}
 				// Perform actions
 				// Serial_mysensors_logln("action.action: ",action.action );
-				if (action.action & ACTION_ON) {
+				if (action.action() == ACTION_ON) {
 					butre.outputList.set(action.outputPin,true);
-				} else if (action.action & ACTION_OFF) {
+				} else if (action.action() == ACTION_OFF) {
 					// Serial_mysensors_logln("action off setting off pin: ",action.outputPin );
 					butre.outputList.set(action.outputPin,false);
 				}
@@ -40,6 +40,26 @@ Input::update(Butre & butre)
 			// Serial_mysensors_logln("not state - released");
 			// offConfig.performAction();
 			//return RELEASED;
+			for (uint8_t actionIdx = 0 ; actionIdx < butre.actionList.ACTIONS_NUM; actionIdx++ ) {
+				ActionConfig & action = butre.actionList.actions[actionIdx];
+				// Check conditions
+				// Serial_mysensors_logln("checking action action.inputPin: ",action.inputPin );
+				if ( action.inputPin != pin() ) {
+					continue;
+				}
+				// Serial_mysensors_logln("Action matches pin actionIdx: ",actionIdx );
+				if (! action.whenOff() ) {
+					continue;
+				}
+				// Perform actions
+				// Serial_mysensors_logln("action.action: ",action.action );
+				if (action.action() == ACTION_ON ) {
+					butre.outputList.set(action.outputPin,true);
+				} else if (action.action() == ACTION_OFF) {
+					// Serial_mysensors_logln("action off setting off pin: ",action.outputPin );
+					butre.outputList.set(action.outputPin,false);
+				}
+			}
 		}
 		return true;
 	}
