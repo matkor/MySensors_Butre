@@ -57,10 +57,14 @@ OutputList outputList(outputs, OUTPUTS_NUM);
 
 
 ActionConfig actions[] = {
-  ActionConfig(54,WHEN_ON+ACTION_ON,25),
-  ActionConfig(54,WHEN_OFF+ACTION_OFF,25),
+  ActionConfig(54,WHEN_ON+ACTION_ON,22),
+  ActionConfig(54,WHEN_OFF+ACTION_OFF,22),
   
-   // Multi actions
+
+  ActionConfig(55,WHEN_ON+ACTION_TOGGLE,25),
+  //ActionConfig(55,WHEN_OFF+ACTION_TOGGLE,25),
+  
+  /* // Multi actions
   ActionConfig(54,WHEN_ON+ACTION_ON,22),
   ActionConfig(54,WHEN_ON+ACTION_OFF,23),
   ActionConfig(54,WHEN_ON+ACTION_ON,24),
@@ -68,7 +72,7 @@ ActionConfig actions[] = {
   ActionConfig(55,WHEN_ON+ACTION_OFF,22),
   ActionConfig(55,WHEN_ON+ACTION_ON,23),
   ActionConfig(55,WHEN_ON+ACTION_OFF,24),
-  
+  */
 };
 
 const uint8_t ACTIONS_NUM = sizeof(actions) / sizeof( actions[0] );

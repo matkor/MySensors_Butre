@@ -34,6 +34,8 @@ Input::update(Butre & butre)
 				} else if (action.action() == ACTION_OFF) {
 					// Serial_mysensors_logln("action off setting off pin: ",action.outputPin );
 					butre.outputList.set(action.outputPin,false);
+				} else if (action.action() == ACTION_TOGGLE) {
+					butre.outputList.toggle(action.outputPin);
 				}
 			}
 		} else {
@@ -58,6 +60,8 @@ Input::update(Butre & butre)
 				} else if (action.action() == ACTION_OFF) {
 					// Serial_mysensors_logln("action off setting off pin: ",action.outputPin );
 					butre.outputList.set(action.outputPin,false);
+				} else if (action.action() == ACTION_TOGGLE) {
+					butre.outputList.toggle(action.outputPin);
 				}
 			}
 		}

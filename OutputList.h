@@ -80,6 +80,17 @@ class OutputList
 		    output.set(value);
 	    }
     }
+    void toggle(uint8_t pin)
+    {
+	for (uint8_t outputIdx = 0; outputIdx < OUTPUTS_NUM; outputIdx++) {
+	    Output & output = outputs[outputIdx];
+	    if (output.pin() != pin ) {
+		continue;
+	    }
+	    output.toggle();
+	}
+		
+    }
 };
 
 
