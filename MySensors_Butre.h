@@ -98,7 +98,7 @@ public:
 				// Serial_mysensors_logln("inital_msgs_sent = false;");
 			}
 		}
-		inputList.update();
+		inputList.update(*this);
 		outputList.update();
 	}
 	

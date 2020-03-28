@@ -10,6 +10,8 @@
 #include "Utils.h"
 #include "ActionConfig.h"
 
+class Butre;
+
 class Input
 {
   private:
@@ -34,6 +36,12 @@ class Input
       // ,pin(pin)
     {}
 
+    const uint8_t pin() 
+    // Returns input's pin number
+    {
+	    return msg.sensor;
+    }
+    
     void before() 
 	// initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
     {	
@@ -64,29 +72,13 @@ class Input
     }
 
     // button_change_t update()  // TODO: return action_t
-    bool update()
+    // bool update()
+    
+    bool update(Butre & butre);
     // Calculate current button state, send update msg if change detected
-    {
-      if (debouncer.update()) {
-	// Serial_mysensors_logln("debouncer.update() pin: ", msg.sensor);
-	bool state;
-	sendState(state);
-	
-        if (state) {
-		// Serial_mysensors_logln("state - pushed");
-		// onConfig.performAction();
-		//return PUSHED;
-        } else {
-		// Serial_mysensors_logln("not state - released");
-		// offConfig.performAction();
-		//return RELEASED;
-        }
-        return true;
-      }
-      // return NO_CHANGE;
-      return false;
-    };
-
+    // Execute butre actions if defined
+    
+    
 
     bool processMessage(const MyMessage & recvMsg) {
       // Returns if message was targeted to current sensor.

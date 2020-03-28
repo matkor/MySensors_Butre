@@ -63,14 +63,23 @@ class OutputList
     }    
     
     bool processMessage(const MyMessage & recv_msg) {
-      for (int output_idx = 0 ; output_idx < OUTPUTS_NUM; output_idx ++ ) {
+      for (uint8_t output_idx = 0 ; output_idx < OUTPUTS_NUM; output_idx ++ ) {
         if ( outputs[output_idx].processMessage(recv_msg) ) {
           return true;
         }
       }
       return false;
     }
-    
+    void set(uint8_t pin, bool value) 
+    {
+	    for (uint8_t outputIdx = 0; outputIdx < OUTPUTS_NUM; outputIdx++) {
+		    Output & output = outputs[outputIdx];
+		    if (output.pin() != pin ) {
+			    continue;
+		    }
+		    output.set(value);
+	    }
+    }
 };
 
 

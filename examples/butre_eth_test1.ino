@@ -6,6 +6,8 @@
 
 #define MY_GATEWAY_ENC28J60
 
+#ifdef MY_GATEWAY_ENC28J60
+
 #define MY_IP_ADDRESS 192,168,9,234  
 
 // The port to keep open on node server mode / or port to contact in client mode
@@ -19,6 +21,7 @@
 #define MY_MAC_ADDRESS 0x02,0x00,MY_IP_ADDRESS
 #include <UIPEthernet.h>
 
+#endif // MY_GATEWAY_ENC28J60
 
 // Define a lower baud rate for Arduino's running on 8 MHz (Arduino Pro Mini 3.3V & SenseBender)
 #if F_CPU == 8000000L
@@ -55,6 +58,7 @@ OutputList outputList(outputs, OUTPUTS_NUM);
 
 ActionConfig actions[] = {
   ActionConfig(54,WHEN_ON+ACTION_ON,22),
+  ActionConfig(55,WHEN_ON+ACTION_OFF,22),
 };
 
 const uint8_t ACTIONS_NUM = sizeof(actions) / sizeof( actions[0] );

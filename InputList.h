@@ -65,11 +65,12 @@ class InputList
 	return sendResult;
     }
     
-    void update() {
+    void update(Butre & butre);
+    /* {
       for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {
-        inputs[inputIdx].update();
+        inputs[inputIdx].update(butre);
       }
-    }    
+    }  */  
     
     bool processMessage(const MyMessage & recv_msg) {
       for (int inputIdx = 0 ; inputIdx < INPUTS_NUM; inputIdx ++ ) {

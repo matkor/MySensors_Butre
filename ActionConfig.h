@@ -18,6 +18,7 @@ enum action_t {
 
 class ActionConfig
 {
+	
 
 	public:
 		const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
@@ -25,8 +26,12 @@ class ActionConfig
 		uint8_t action = NO_ACTION;
 		uint8_t outputPin = INVALID;
 
-		ActionConfig(const uint8_t inputPin=INVALID, uint8_t action=NO_ACTION, uint8_t outputPin=INVALID)
+		ActionConfig(const uint8_t inputPin=INVALID, uint8_t action=NO_ACTION, uint8_t outputPin=INVALID):
+			inputPin(inputPin), 
+			action(action), 
+			outputPin(outputPin)
 		{
+		
 		}
 		
 		void 
@@ -44,12 +49,17 @@ class ActionConfig
 		*/
 		// void 
 		// performAction();
+		bool whenOn() 
+		//  Action condition matches ON change state
+		{
+			return action && WHEN_ON;
+		}
 
 };
 
 class ActionConfigList
 {
-private:
+public:                                                     //  Consider private ? 
 	ActionConfig * actions; 
 	const uint8_t ACTIONS_NUM;
 
@@ -57,7 +67,17 @@ public:
 	ActionConfigList( ActionConfig  * actions, const uint8_t ACTIONS_NUM):
 		actions(actions), ACTIONS_NUM(ACTIONS_NUM) 
 	{}
+
 	
+	ActionConfig & 
+	operator[] (uint8_t index) {                               //  NOTE: not tested !
+		if ( index >= ACTIONS_NUM) {
+			// Serial_mysensors_logln("ERROR: Action index ", index);
+			// Serial_mysensors_logln("ERROR: >= max ", ACTIONS_NUM);
+			index = ACTIONS_NUM-1;
+		}			
+		return actions[index];
+	}
 
 };
 

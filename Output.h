@@ -62,6 +62,13 @@ public:
     Output(uint8_t pin=INVALID):
       msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
     {}
+    
+    const uint8_t pin() 
+    // Returns input's pin number
+    {
+	    return msg.sensor;
+    }
+    
 
     void configure(uint8_t pin) {
       msg.setSensor(pin);
