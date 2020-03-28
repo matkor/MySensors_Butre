@@ -36,6 +36,10 @@ Input::update(Butre & butre)
 					butre.outputList.set(action.outputPin,false);
 				} else if (action.action() == ACTION_TOGGLE) {
 					butre.outputList.toggle(action.outputPin);
+				} else if (action.action() == ACTION_SAME) {
+					butre.outputList.set(action.outputPin,true);
+				} else if (action.action() == ACTION_INVERTED) {
+					butre.outputList.set(action.outputPin,false);
 				}
 			}
 		} else {
@@ -62,6 +66,10 @@ Input::update(Butre & butre)
 					butre.outputList.set(action.outputPin,false);
 				} else if (action.action() == ACTION_TOGGLE) {
 					butre.outputList.toggle(action.outputPin);
+				} else if (action.action() == ACTION_SAME) {
+					butre.outputList.set(action.outputPin,false);
+				} else if (action.action() == ACTION_INVERTED) {
+					butre.outputList.set(action.outputPin,true);
 				}
 			}
 		}
