@@ -59,14 +59,21 @@ private:
 public:
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
     
+    /*
     Output(uint8_t pin=INVALID):
       msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
-    {}
+    {}*/
+    
+    Output(uint8_t pin=INVALID,bool inverted=true):
+      msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
+    {
+	    config.setInverted(inverted);
+    }
     
     const uint8_t pin() 
     // Returns input's pin number
     {
-	    return msg.sensor;
+	return msg.sensor;
     }
     
 
