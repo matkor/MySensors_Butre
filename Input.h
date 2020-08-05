@@ -65,14 +65,13 @@ class Input
       return sendState(state);
     }
 
-    bool sendState(bool & state) {
-      bool pin_state = debouncer.read();
-      state = !pin_state; // TODO: not always inverted
-      return send(msg.set(state));  // Not pressed is HIGH
+    bool sendState(bool & logLevel) {  // TODO: Rename state to logLevel and pin_state to pinHigh
+        bool pin_state = debouncer.read();
+        logLevel = !pin_state; // TODO: Not always inverted (not pressed is HIGH)
+                            // use INVERTED flag 
+                            // and  setInverted(bool inverted) / bool inverted() like in Output.h/cpp
+        return send(msg.set(logLevel));
     }
-
-    // button_change_t update()  // TODO: return action_t
-    // bool update()
     
     bool update(Butre & butre);
     // Calculate current button state, send update msg if change detected

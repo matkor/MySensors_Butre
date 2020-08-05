@@ -22,7 +22,9 @@ public:
 		//const uint16_t SWITCHBACK_DEFAULT_TIME_NEVER = 0; not used now, use switchBack() 
 		uint16_t switchBackTime = 0; // SWITCHBACK_DEFAULT_TIME_NEVER; //  
 		
-		const uint8_t INVERTED = 0x1;
+		const uint8_t INVERTED = 0x1;   // Inverted set means active low
+                                                // Inverted _not_ set means active high
+                                                // Default is inverted 
 		const uint8_t SWITCHBACK = 0x2; // Use switchBackDefaultTime time to switch back to off 
 		uint8_t flags = INVERTED;
 		
@@ -83,10 +85,10 @@ public:
 
     void before() {
 	uint8_t pin = msg.sensor;
-      pinMode(pin, OUTPUT);
-      bool is_on = false;   // TODO: Load state from EEPROM ?
-      bool pin_high = is_on xor config.inverted();
-      digitalWrite(pin, 1);  // Off, as inverted by default - active on 0 (drain)
+        pinMode(pin, OUTPUT);
+        bool is_on = false;   // TODO: Load state from EEPROM ?
+        bool pin_high = is_on xor config.inverted();
+        digitalWrite(pin, pin_high);  // Off by default, level based on inverted()
     }
 
     void present() {

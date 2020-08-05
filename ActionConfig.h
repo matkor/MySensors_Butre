@@ -12,15 +12,13 @@ enum action_t {
 	ACTION_SAME = 4, 
 	ACTION_INVERTED = 5,
 	ACTION_MASK = 7, 
-	WHEN_OFF = 64, 
-	WHEN_ON = 128,
+	WHEN_OFF = 64,  // Means logical off/0, not pin level(high/low)
+	WHEN_ON = 128, // Means logical on/1 , not pin level(high/low)
 	WHEN_CHANGE = WHEN_OFF+WHEN_ON
 };
 
 class ActionConfig
 {
-	
-
 	public:
 		const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
 		uint8_t inputPin = INVALID;
@@ -32,7 +30,6 @@ class ActionConfig
 			whenAction(whenAction), 
 			outputPin(outputPin)
 		{
-		
 		}
 		
 		void 
