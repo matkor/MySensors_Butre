@@ -136,6 +136,13 @@ public:
 		}
 		*/
 	}
+	
+	bool configureSwitchBackTime(uint8_t outputPin,uint16_t switchBackTime) {  
+            // TODO: Test it
+            return outputList.configureSwitchBackTime(outputPin,switchBackTime);
+        }
+                                
+	
 };
 
 // extern Butre butre;

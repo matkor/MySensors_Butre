@@ -55,7 +55,8 @@ public:
 private:
 	// uint8_t sensorId;
 	// uint8_t pin;
-	MyMessage msg;  // Keeps sensorId/pin
+	MyMessage msg;  // Keeps sensorId/pin  , 
+                        // TODO: Consider using one MyMessage for all inputs/outputs ?
 	unsigned long switchedOnTime = 0; // millis() when output was switched on
 
 public:

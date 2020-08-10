@@ -28,13 +28,27 @@ class OutputList
 	outputs(outputs), OUTPUTS_NUM(OUTPUTS_NUM) 
 	{}  
     
-	bool validIdx(uint8_t outputIdx) {
+    bool validIdx(uint8_t outputIdx) {
 		return 0 <= outputIdx and outputIdx < OUTPUTS_NUM;
 	}
    
     // bool valid_id(uint8_t output_idx) // TODO: Make static
 
     // MySensors operations
+    
+    bool configureSwitchBackTime(uint8_t outputPin,uint16_t switchBackTime) {
+        /*
+         * 
+         */
+        for (uint8_t output_idx = 0 ; output_idx < OUTPUTS_NUM; output_idx ++ ) {
+            Output & output = outputs[output_idx];
+            if (output.pin() == outputPin ) {
+                output.config.setSwitchBackTime(switchBackTime);
+                return true;
+            }
+        }
+        return false;
+    }
     
     void before() {
       for (int output_idx = 0 ; output_idx < OUTPUTS_NUM; output_idx ++ ) {

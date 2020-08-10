@@ -1,6 +1,7 @@
 # Change Log
 
 ## [Unreleased] - yyyy-mm-dd
+- Added configureSwitchBackTime(), pin based switch back time 
 
 ## [0.0.2] - 2020-08-06
 
