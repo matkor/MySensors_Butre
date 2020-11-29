@@ -8,7 +8,7 @@ Input::update(Butre & butre)
     // Execute butre actions if defined
 {
 	if (debouncer.update()) {
-		// Serial_mysensors_logln("debouncer.update() pin: ", msg.sensor);
+		// Serial_mysensors_logln("pin: ", msg.sensor, " level change: ", debouncer.read());
 		bool state;
 		sendState(state);
 	

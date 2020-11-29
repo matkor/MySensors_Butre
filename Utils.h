@@ -26,6 +26,18 @@ Serial_mysensors_logln(const char * txt, int val)
 	Serial.println();
 };
 
+static void
+Serial_mysensors_logln(const char * txt, int val,const char * txt2, int val2)
+{
+	Serial_mysensors_log_intro();
+	Serial.print(txt);
+	Serial.print(val);
+	Serial.print(txt2);
+	Serial.print(val2);
+	Serial.println();
+};
+
+
 
 class BounceExt: public Bounce
 {

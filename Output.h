@@ -2,6 +2,7 @@
 #define __MYSENSORS_BUTRE_OUTPUT_H_INCLUDED__   
 
 #include <core/MySensorsCore.h>
+#include "ConfigDefaults.h"
 #include "Utils.h"
 
 //#include "MySensors_Butre.h"
@@ -10,8 +11,8 @@
 class Output
 /*
  * We mean on/off as logical states
- * We mean high/low as phisical pin state
- * If inverte  on = low, off=high
+ * We mean high/low as physical pin state
+ * If inverted  on = low, off=high
  * if not inverted (normal)   on = high,  off=low
  */
 {
@@ -117,6 +118,7 @@ public:
 		uint8_t pin = msg.sensor;
 		bool pinHigh = newState xor config.inverted();
 		digitalWrite(pin, pinHigh );
+                // Serial_mysensors_logln("pin: ", msg.sensor, " set to new level: ", pinHigh );
 		// TODO: Save state to EEPROM ?
 		switchedOnTime = millis();
 		sendState();
@@ -130,6 +132,7 @@ public:
       uint8_t pin = msg.sensor;
       auto pin_state = digitalRead(pin);  // https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/
       msg.set( pin_state xor config.inverted() ); 
+      
       return send(msg);
     }
 

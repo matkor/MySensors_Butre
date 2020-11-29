@@ -3,6 +3,7 @@
 
 #include <inttypes.h>
 
+#include "ConfigDefaults.h"
 
 enum action_t {
 	NO_ACTION = 0,
