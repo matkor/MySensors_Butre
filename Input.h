@@ -7,8 +7,10 @@
 #include <core/MySensorsCore.h>
 
 // #include "MySensors_Butre.h"
+#include "ConfigDefaults.h"
 #include "Utils.h"
 #include "ActionConfig.h"
+
 
 class Butre;
 
@@ -90,7 +92,7 @@ class Input
         return true;
       }
       // TODO: If set state, consider performing actions like new state?
-      return false;
+      return true;
     }    
 };
 
