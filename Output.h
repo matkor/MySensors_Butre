@@ -20,7 +20,7 @@ public:
 	class Config 
 	{
 	public:
-		//const uint16_t SWITCHBACK_DEFAULT_TIME_NEVER = 0; not used now, use switchBack() 
+		//const uint16_t SWITCHBACK_DEFAULT_TIME_NEVER = 0; not used now, use switchback() 
 		uint16_t switchBackTime = 0; // SWITCHBACK_DEFAULT_TIME_NEVER; //  
 		
 		const uint8_t INVERTED = 0x1;   // Inverted set means active low
@@ -107,7 +107,7 @@ public:
     void update() {
 	    if (config.switchback() and isOn() ) {
 		    //  if (millis () - startTime >= interval)
-		    if ( millis() - switchedOnTime >= config.switchBackTime*1000 ) {
+		    if ( millis() - switchedOnTime >= (unsigned long)config.switchBackTime*1000 ) {
 			set(false);
 		    }
 	    }
