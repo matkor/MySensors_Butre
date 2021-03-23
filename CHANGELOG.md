@@ -1,7 +1,9 @@
 # Change Log
 
-## [Unreleased] - yyyy-mm-dd
-- Added configureSwitchBackTime(), pin based switch back time 
+## [0.1.0] - 2021-03-23
+### added
+- configureSwitchBackTime(), pin based switch back time 
+- DHT temp/humidity readings support 
 
 ## [0.0.2] - 2020-08-06
 
