@@ -12,12 +12,8 @@ Input::update(Butre & butre)
 	if (debouncer.update()) {
 		// Serial_mysensors_logln("pin: ", msg.sensor, " level change: ", debouncer.read());
 		bool state;
-		sendState(state);
-	
+		sendState(state);	
 		if (state) {
-			//Serial_mysensors_logln("state - pushed pin: ",pin() );
-			// onConfig.performAction();
-			//return PUSHED;
 			for (uint8_t actionIdx = 0 ; actionIdx < butre.actionList.ACTIONS_NUM; actionIdx++ ) {
 				ActionConfig & action = butre.actionList.actions[actionIdx];
 				// Check conditions
