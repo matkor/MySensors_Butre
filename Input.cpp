@@ -1,6 +1,8 @@
 #include "Input.h"
 #include "MySensors_Butre.h"
 
+// MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
+MyMessage Input::msg(Input::INVALID,V_STATUS);
 
 bool 
 Input::update(Butre & butre)

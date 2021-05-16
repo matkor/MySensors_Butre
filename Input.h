@@ -17,10 +17,13 @@ class Butre;
 class Input
 {
   private:
+    static MyMessage msg; // Common to all Inputs sending message
+  
+  private:
     BounceExt debouncer; // https://github.com/thomasfredericks/Bounce2/wiki
     // uint8_t pin;  // Needed as: error: 'uint8_t Bounce::pin' is protected
-    // uint8_t sensorId;
-    MyMessage msg;
+    uint8_t sensorId;
+    // MyMessage msg;   // 
 
 
   public:
@@ -32,32 +35,31 @@ class Input
     // Input(uint8_t sensorId = INVALID, uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
     Input(uint8_t pin=INVALID, unsigned long debounce_interval_millis=10):
       debouncer(pin, debounce_interval_millis)
-      , msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
+      // , msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
       // S_BINARY sends V_STATUS
-      // ,sensorId(sensorId)
+      ,sensorId(sensorId)
       // ,pin(pin)
     {}
 
     const uint8_t pin() 
     // Returns input's pin number
     {
-	    return msg.sensor;
+	return sensorId;
     }
     
     void before() 
 	// initialisations that needs to take place before MySensors transport has been setup (eg: SPI devices).
     {	
-      const uint8_t pin = msg.sensor;
-      pinMode(pin, INPUT_PULLUP); 
+      // const uint8_t pin = msg.sensor;
+      // pinMode(pin, INPUT_PULLUP);
+      pinMode(pin(), INPUT_PULLUP); 
       // Serial_mysensors_logln("Input configured pin: ", pin);
     }
 
     void present()
     {
-      // bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
-      // msg.getSensor  (   void      )
-      // ::present(msg.getSensor(), S_BINARY);
-      ::present(msg.sensor, S_BINARY, F("Input"));
+      // ::present(msg.sensor, S_BINARY, F("Input"));
+      ::present(pin(), S_BINARY, F("Input"));
       //Serial_mysensors_logln("Button presented as sensorId: ",msg.sensor); // Id of sensor that this message concerns. 
     }
 
@@ -72,7 +74,9 @@ class Input
         logLevel = !pin_state; // TODO: Not always inverted (not pressed is HIGH)
                             // use INVERTED flag 
                             // and  setInverted(bool inverted) / bool inverted() like in Output.h/cpp
-        return send(msg.set(logLevel));
+        msg.setSensor(pin());
+        msg.set(logLevel);
+        return send(msg);
     }
     
     bool update(Butre & butre);
@@ -84,7 +88,8 @@ class Input
     bool processMessage(const MyMessage & recvMsg) {
       // Returns if message was targeted to current sensor.
       // 	
-      if (msg.sensor != recvMsg.sensor) {
+      //if (msg.sensor != recvMsg.sensor) {
+      if (pin() != recvMsg.sensor) {
         return false;
       }
       if (recvMsg.type == V_STATUS && recvMsg.getCommand() == C_REQ ) {

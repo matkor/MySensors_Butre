@@ -14,7 +14,7 @@
 // #include <MySensors/core/MyMessage.h> // ln -s ../MySensors MySensors  
 // #include <MySensors/core/MySensorsCore.h> // ln -s ../MySensors MySensors  
 
-
+#include "ConfigDefaults.h"
 #include "Utils.h"
 #include "Input.h"
 #include "Output.h"
@@ -25,15 +25,23 @@
 // template<size_t INPUTS_NUM>
 class Butre {
 public:
-	InputList & inputList;
+    /*
+     // FUTURE
+    class Config {  
+    public:
+        bool log_pin_level_changes = false;
+        
+    } config;
+    
+        InputList & inputList;
 	// InputList<INPUTS_NUM> & inputList;
 	// OutputList outputs;
 	OutputList & outputList;
 	ActionConfigList & actionList;
-	
+    */
 private:
 	bool inital_msgs_sent = false; // Flag if initial state messages ware sent , or was requested again
-	MyMessage msg;
+	MyMessage msg; // Currently generated message to send
 public:	
 	// Butre(InputList<INPUTS_NUM> & inputList):
 	Butre(InputList & inputList, OutputList & outputList, ActionConfigList & actionList):
