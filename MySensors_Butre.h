@@ -32,13 +32,13 @@ public:
         bool log_pin_level_changes = false;
         
     } config;
+    */
     
         InputList & inputList;
 	// InputList<INPUTS_NUM> & inputList;
 	// OutputList outputs;
 	OutputList & outputList;
 	ActionConfigList & actionList;
-    */
 private:
 	bool inital_msgs_sent = false; // Flag if initial state messages ware sent , or was requested again
 	MyMessage msg; // Currently generated message to send

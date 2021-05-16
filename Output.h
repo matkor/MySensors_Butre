@@ -54,12 +54,12 @@ public:
 		}
 	} config;
 private:
-	// uint8_t sensorId;
-	// uint8_t pin;
-	MyMessage msg;  // Keeps sensorId/pin  , 
-                        // TODO: Consider using one MyMessage for all inputs/outputs ?
+        static MyMessage msg;
 	unsigned long switchedOnTime = 0; // millis() when output was switched on
-
+	// uint8_t sensorId;
+	uint8_t _pin;
+	//MyMessage msg;  // Keeps sensorId/pin  , 
+                        // TODO: Consider using one MyMessage for all inputs/outputs ?
 public:
     const static uint8_t INVALID= -1;  // Default invalid pin/sensor id value
     
@@ -69,7 +69,8 @@ public:
     {}*/
     
     Output(uint8_t pin=INVALID,bool inverted=true):
-      msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
+      // msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
+      _pin(pin)
     {
 	    config.setInverted(inverted);
     }
@@ -77,30 +78,38 @@ public:
     const uint8_t pin() 
     // Returns input's pin number
     {
-	return msg.sensor;
+	// return msg.sensor;
+        return _pin;
     }
     
+    const uint8_t sensorId()
+    // Sensor id of output, for now same as pin
+    {
+        return _pin;
+    }
 
     void configure(uint8_t pin) {
-      msg.setSensor(pin);
+      //msg.setSensor(pin);
+        _pin = pin;
     }
 
     void before() {
-	uint8_t pin = msg.sensor;
-        pinMode(pin, OUTPUT);
+	// uint8_t pin = msg.sensor;
+        pinMode(pin(), OUTPUT);
         bool is_on = false;   // TODO: Load state from EEPROM ?
         bool pin_high = is_on xor config.inverted();
-        digitalWrite(pin, pin_high);  // Off by default, level based on inverted()
+        digitalWrite(pin(), pin_high);  // Off by default, level based on inverted()
     }
 
     void present() {
 	// bool present(uint8_t childSensorId, uint8_t sensorType, const char *description, bool echo);
-	::present(msg.sensor, S_BINARY,F("Output"));
+	// ::present(msg.sensor, S_BINARY,F("Output"));
+        ::present(pin(), S_BINARY,F("Output"));
     }
     
     bool isOn(){
-	    uint8_t pin = msg.sensor;
-	    auto pin_state = digitalRead(pin);
+	    //uint8_t pin = msg.sensor;
+	    auto pin_state = digitalRead(pin());
 	    return bool(pin_state) xor config.inverted();
     }
     
@@ -113,31 +122,31 @@ public:
 	    }
     }
 
-	void set(bool newState) {
-	    // Sets logical on/off state and sends MyMessage back to controller 
-		uint8_t pin = msg.sensor;
-		bool pinHigh = newState xor config.inverted();
-		digitalWrite(pin, pinHigh );
-                // Serial_mysensors_logln("pin: ", msg.sensor, " set to new level: ", pinHigh );
-		// TODO: Save state to EEPROM ?
-		switchedOnTime = millis();
-		sendState();
-	}
-    
-	void toggle() {
-		set(not isOn() ); 
-	}
+    void set(bool newState) {
+        // Sets logical on/off state and sends MyMessage back to controller 
+        // uint8_t pin = msg.sensor;
+        bool pinHigh = newState xor config.inverted();
+        digitalWrite(pin(), pinHigh );
+        // Serial_mysensors_logln("pin: ", msg.sensor, " set to new level: ", pinHigh );
+        // TODO: Save state to EEPROM ?
+        switchedOnTime = millis();
+        sendState();
+    }
+
+    void toggle() {
+        set(not isOn() ); 
+    }
     
     bool sendState() {
-      uint8_t pin = msg.sensor;
-      auto pin_state = digitalRead(pin);  // https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/
+      //uint8_t pin = msg.sensor;
+      auto pin_state = digitalRead(pin());  // https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/
+      msg.setSensor(pin());
       msg.set( pin_state xor config.inverted() ); 
-      
       return send(msg);
     }
 
     bool processMessage(const MyMessage & recv_msg) {
-      if (msg.sensor != recv_msg.sensor) {
+      if ( sensorId() != recv_msg.sensor) {
         return false;
       }
       if (recv_msg.type == V_STATUS ) {  
