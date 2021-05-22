@@ -15,6 +15,7 @@ private:
     bool inital_msgs_sent = false; // Flag if initial state messages ware sent , or was requested again    , FUTURE: Use one global flag in Butre instance ?
     float lastTemp;
     float lastHum;
+    float tempHysteresis = 0.1;
 public:
     DHT dht;
     
@@ -26,6 +27,8 @@ public:
         _humSensorId = humSensorId;
         lastTemp = NAN;  // Last sent temp value
         lastHum = NAN;   // Last sent hum value
+        
+        
     };
     
     uint8_t pin() const {
@@ -44,8 +47,9 @@ public:
     };
     
     
+    /*
     bool sendState(float temp, float hum) {
-        Serial_mysensors_logln("Reading dht values");
+        // Serial_mysensors_logln("Reading dht values");
         // Read temperature as Celsius (the default)
         //float t = dht.readTemperature();
         Serial_mysensors_logln("Sending temp ",temp);
@@ -66,8 +70,53 @@ public:
             lastHum = hum;
         }
         return sendResult and sendResultHum;
+    } */
+    
+    
+    
+    bool sendTemp(float temp) {
+        // Serial_mysensors_logln("Sending temp ",temp);
+        msg.setSensor(_pin);
+        msg.setType(V_TEMP);  
+        msg.set(temp,1);
+        bool sendResult = send(msg);  // Returns true if message reached the first stop on its way to destination. https://www.mysensors.org/download/sensor_api_20#sending-data
+        // Serial_mysensors_logln("sendTemp(): sendResult: ", sendResult);
         
+        if (sendResult) {
+            if (isnan(lastTemp)) {
+                lastTemp = temp;
+                // Serial_mysensors_logln("sendTemp(): first temp reading, tempHysteresis/2.0: ", float(tempHysteresis/2.0));
+            } else if ( temp > lastTemp) {
+                lastTemp = temp - (tempHysteresis/2.0);
+                // Serial_mysensors_logln("sendTemp(): temp raising, tempHysteresis/2.0: ", float(tempHysteresis/2.0));
+            } else { // We never sendTemp when is no change bigger than tempHysteresis, so there must have been decrese in temp
+                lastTemp = temp + (tempHysteresis/2.0);
+                // Serial_mysensors_logln("sendTemp(): temp falling, tempHysteresis/2.0: ", float(tempHysteresis/2.0));
+            }
+        } 
+        return sendResult;
     }
+    
+    bool sendHum(float hum) {
+        // Serial_mysensors_logln("Sending hum ",hum);
+        msg.setSensor(_humSensorId);
+        msg.setType(V_HUM);
+        msg.set(hum,1);
+        bool sendResult = send(msg);
+        if (sendResult) {
+            lastHum = hum;
+        }
+        return sendResult;
+    }
+    
+    bool sendState(float temp, float hum) {
+        if ( not sendTemp(temp) ) {
+            return false;
+        }
+        return sendHum(hum);
+    }
+        
+    
     // update(Butre & butre)   // For now we will respond only to pulls 
     
     bool processMessage(const MyMessage &recvMsg) {
@@ -85,17 +134,36 @@ public:
         }*/
         return false;
     };
+    
     bool update() 
     {
+        bool sendResult = true;
+        unsigned long t = micros();
         float temp = dht.readTemperature();
         float hum = dht.readHumidity();
-        if ( temp != lastTemp or hum != lastHum) {
-            Serial_mysensors_logln("New temp/hum vals detected");
-            sendState(temp,hum);
+        
+        t = micros() - t;
+        if (t > 100) { // Seems take 56 us ?!?
+            // Serial_mysensors_logln("DHT reading time: ",t);  // 22 ms 
+            // Serial_mysensors_logln("Temp: ", temp, " prev temp: ", lastTemp);
+            if ( not isnan(temp)) {
+                if (isnan(lastTemp)) {
+                    // Serial_mysensors_logln("Sending initial temp: ", temp);
+                    sendResult = sendResult and sendTemp(temp);
+                } else {
+                    if ( abs(lastTemp - temp) > tempHysteresis ) {
+                        // Serial_mysensors_logln("Sending updated temp: ", temp);
+                        sendResult = sendResult and sendTemp(temp);
+                    } else {
+                        // Serial_mysensors_logln("Not sending same temp: ", temp);
+                    }
+                }
+            }
         }
+        return sendResult;
     }
     
-    void loop(){
+    void loop() {
         // FUTURE: Merge with butre loop ?
         /*
         if ( ! inital_msgs_sent ) {
