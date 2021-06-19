@@ -16,6 +16,7 @@ private:
     float lastTemp;
     float lastHum;
     float tempHysteresis = 0.1;
+    float humHysteresis = 1.0;
 public:
     DHT dht;
     
@@ -47,38 +48,11 @@ public:
     };
     
     
-    /*
-    bool sendState(float temp, float hum) {
-        // Serial_mysensors_logln("Reading dht values");
-        // Read temperature as Celsius (the default)
-        //float t = dht.readTemperature();
-        Serial_mysensors_logln("Sending temp ",temp);
-        msg.setSensor(_pin);
-        msg.setType(V_TEMP);  
-        bool sendResult = send(msg.set(temp,1));
-        if (sendResult) {
-            lastTemp = temp;
-        }
-        
-        // float h = dht.readHumidity();
-        Serial_mysensors_logln("Sending hum ",hum);
-        msg.setSensor(_humSensorId);
-        msg.setType(V_HUM);
-        // sendResult &= send(msg.set(h,1));
-        bool sendResultHum = send(msg.set(hum,1));
-        if (sendResultHum) {
-            lastHum = hum;
-        }
-        return sendResult and sendResultHum;
-    } */
-    
-    
-    
     bool sendTemp(float temp) {
         // Serial_mysensors_logln("Sending temp ",temp);
         msg.setSensor(_pin);
         msg.setType(V_TEMP);  
-        msg.set(temp,1);
+        msg.set(temp,1); // FUTURE: Calc decimal from  tempHysteresis ?
         bool sendResult = send(msg);  // Returns true if message reached the first stop on its way to destination. https://www.mysensors.org/download/sensor_api_20#sending-data
         // Serial_mysensors_logln("sendTemp(): sendResult: ", sendResult);
         
@@ -96,16 +70,28 @@ public:
         } 
         return sendResult;
     }
-    
+
     bool sendHum(float hum) {
-        // Serial_mysensors_logln("Sending hum ",hum);
+        // Serial_mysensors_logln("Sending hum ",temp);
         msg.setSensor(_humSensorId);
         msg.setType(V_HUM);
-        msg.set(hum,1);
-        bool sendResult = send(msg);
+        // set (const float value, const uint8_t decimals)
+        msg.set(hum,0); // FUTURE: Calc decimal  from humHysteresis ?
+        bool sendResult = send(msg);  // Returns true if message reached the first stop on its way to destination. https://www.mysensors.org/download/sensor_api_20#sending-data
+        // Serial_mysensors_logln("sendHum(): sendResult: ", sendResult);
+        
         if (sendResult) {
-            lastHum = hum;
-        }
+            if (isnan(lastHum)) {
+                lastHum = hum;
+                // Serial_mysensors_logln("sendHum(): first hum reading, humHysteresis/2.0: ", float(humHysteresis/2.0));
+            } else if ( hum > lastHum) {
+                lastHum = hum - (humHysteresis/2.0);
+                // Serial_mysensors_logln("sendHum(): hum raising, humHysteresis/2.0: ", float(humHysteresis/2.0));
+            } else { // We never sendTemp when is no change bigger than humHysteresis, so there must have been decrese in hum
+                lastHum = hum + (humHysteresis/2.0);
+                // Serial_mysensors_logln("sendHum(): hum falling, humHysteresis/2.0: ", float(humHysteresis/2.0));
+            }
+        } 
         return sendResult;
     }
     
@@ -118,7 +104,6 @@ public:
         
     
     // update(Butre & butre)   // For now we will respond only to pulls 
-    
     bool processMessage(const MyMessage &recvMsg) {
         if (pin() == recvMsg.sensor or recvMsg.sensor == _humSensorId ) {
             if (recvMsg.type == V_STATUS && recvMsg.getCommand() == C_REQ ) {
@@ -159,6 +144,21 @@ public:
                     }
                 }
             }
+            // Serial_mysensors_logln("Hum: ", hum, " prev hum: ", lastHum);
+            if ( not isnan(hum)) {
+                if (isnan(lastHum)) {
+                    // Serial_mysensors_logln("Sending initial hum: ", hum);
+                    sendResult = sendResult and sendHum(hum);
+                } else {
+                    if ( abs(lastHum - hum) > humHysteresis ) {
+                        // Serial_mysensors_logln("Sending updated hum: ", hum);
+                        sendResult = sendResult and sendHum(hum);
+                    } else {
+                        // Serial_mysensors_logln("Not sending same hum: ", hum);
+                    }
+                }
+            }
+            
         }
         return sendResult;
     }
