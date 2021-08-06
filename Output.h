@@ -21,7 +21,8 @@ public:
 	{
 	public:
 		//const uint16_t SWITCHBACK_DEFAULT_TIME_NEVER = 0; not used now, use switchback() 
-		uint16_t switchBackTime = 0; // SWITCHBACK_DEFAULT_TIME_NEVER; //  
+		uint16_t switchBackTime = 0; // SWITCHBACK_DEFAULT_TIME_NEVER; 
+                                             // Switchback time in seconds
 		
 		const uint8_t INVERTED = 0x1;   // Inverted set means active low
                                                 // Inverted _not_ set means active high
@@ -68,12 +69,14 @@ public:
       msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
     {}*/
     
-    Output(uint8_t pin=INVALID,bool inverted=true):
+    Output(uint8_t pin=INVALID,bool inverted=true, uint16_t switchBackTime = 0):
       // msg(pin, V_STATUS) // MyMessage (const uint8_t sensorId, const mysensors_data_t dataType)
       _pin(pin)
     {
 	    config.setInverted(inverted);
+            config.setSwitchBackTime(switchBackTime);
     }
+
     
     const uint8_t pin() 
     // Returns input's pin number
@@ -142,7 +145,9 @@ public:
       auto pin_state = digitalRead(pin());  // https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/
       msg.setSensor(pin());
       msg.set( pin_state xor config.inverted() ); 
-      return send(msg);
+      bool reached = send(msg); // https://www.mysensors.org/download/sensor_api_20
+      // Serial_mysensors_logln("sendState() pin: ", pin(), " send(msg) ->  ", reached );
+      return reached;
     }
 
     bool processMessage(const MyMessage & recv_msg) {

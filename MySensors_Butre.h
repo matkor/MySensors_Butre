@@ -70,22 +70,21 @@ public:
 		::present(250,S_INFO,F("Status/config"));
 	}
 	
-	void sendStatusConfig(const char * txt) {
+	bool sendStatusConfig(const char * txt) {
 		msg.setType(V_TEXT);
 		msg.setSensor(250);
 		msg.set(txt);
-		send(msg);
+		return send(msg);
 	}
 	
-	void sendStatusConfig(const __FlashStringHelper * txt) {
+	bool sendStatusConfig(const __FlashStringHelper * txt) {
 		msg.setType(V_TEXT);
 		msg.setSensor(250);
 		msg.set(txt);
-		send(msg);
+		return send(msg);
 	}
 	
 	void loop() {
-		
 		// bool static inital_msgs_sent = false; // Flag if initial state messages ware sent
 		if ( ! inital_msgs_sent ) {
 			// Serial_mysensors_logln("not inital_msgs_sent, sending states.");
@@ -98,12 +97,13 @@ public:
 			msg.set(F("Presentation done"));
 			send(msg);
 			*/
+                        sendResult &= sendStatusConfig(F("Presentation done"));
+                        
 			if (sendResult) {
-				sendStatusConfig(F("Presentation done"));
-				inital_msgs_sent = true;
-				// Serial_mysensors_logln("inital_msgs_sent = true;");
+                                inital_msgs_sent = true;
+                                // Serial_mysensors_logln("inital_msgs_sent OK");
 			} else {
-				// Serial_mysensors_logln("inital_msgs_sent = false;");
+				// Serial_mysensors_logln("inital_msgs_sent FAIL;");
 			}
 		}
 		inputList.update(*this);

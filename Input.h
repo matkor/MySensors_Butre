@@ -41,11 +41,16 @@ class Input
       // ,pin(pin)
     {}
 
-    const uint8_t pin() 
+    uint8_t pin() const
     // Returns input's pin number
     {
 	// return sensorId;
         return debouncer.get_pin();
+    }
+    
+    uint8_t sensorId() const
+    {
+        return pin();
     }
     
     void before() 

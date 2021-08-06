@@ -14,16 +14,7 @@ class OutputList
   Output * outputs;  // TODO: make private
   const uint8_t OUTPUTS_NUM;
 	  
-  
   public:
-  /*
-    OutputList() {
-      for (int output_idx = 0 ; output_idx < BUTRE_OUTPUTS_NUM; output_idx ++ ) {
-        uint8_t pin = BUTRE_OUTPUT_PINS_LIST[output_idx];
-        outputs[output_idx].configure(pin);  // Sensor id is pin number
-      }
-    }
-    */
     OutputList( Output * outputs, const uint8_t OUTPUTS_NUM):
 	outputs(outputs), OUTPUTS_NUM(OUTPUTS_NUM) 
 	{}  
@@ -75,6 +66,25 @@ class OutputList
 	}
 	return sendResult;
     }    
+    
+    bool sendSensorState(uint8_t sensorId) {
+        for (int outputIdx = 0 ; outputIdx < OUTPUTS_NUM; outputIdx ++ ) {
+            if ( outputs[outputIdx].sensorId() == sensorId ) {
+                // Serial_mysensors_logln("sendSensorState(): sending sensorId: ",sensorId);
+                return outputs[outputIdx].sendState();
+            }
+        }
+        return false;
+    }
+    /*
+    for (int outputIdx = 0 ; outputIdx < OUTPUTS_NUM; outputIdx ++ ) {
+      if ( butre.outputList[outputIdx].sensorId() == lastSendSensorId ) {
+        Serial_mysensors_logln("Periodical sending state() for sensorId: ",lastSendSensorId);
+        butre.outputList[outputIdx].sendState();
+        break;
+      }
+    }*/
+    
     
     bool processMessage(const MyMessage & recv_msg) {
       for (uint8_t output_idx = 0 ; output_idx < OUTPUTS_NUM; output_idx ++ ) {
